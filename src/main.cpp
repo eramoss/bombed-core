@@ -2,7 +2,7 @@
 #include <vector>
 #include <ctime>
 
-#include "./maze_utils.h"
+#include "./services/maze_utils.h"
 
 using namespace std;
 
