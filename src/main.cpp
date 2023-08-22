@@ -35,6 +35,7 @@ void move_player(int dx, int dy, PlayerType player) {
 
 
 int main() {
+    hideCursor();
     srand(static_cast<unsigned>(time(nullptr))); // Seed the random number generator
     maze::Map[player_y][player_x] = maze::player_A_symbol;
 

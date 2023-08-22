@@ -3,6 +3,7 @@
 #include <unistd.h> // For usleep() function
 #include <cstdlib>
 #include <iostream>
+#include <unistd.h>
 
 char get_input_without_enter() {
   struct termios oldt, newt;
@@ -22,4 +23,9 @@ char get_input_without_enter() {
 
 void clear_console() {
   system("clear"); // Clear the console on Linux
+}
+
+
+void hideCursor() {
+  std::cout << "\033[?25l";   // Hide the cursor using ANSI escape sequence
 }
