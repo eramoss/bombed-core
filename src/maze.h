@@ -15,9 +15,6 @@ namespace maze {
 
 
   //functions interface *
-  void create_walls();
-  void init_map();
-  bool is_wall(int j, int i);
   void print_maze();
 
 

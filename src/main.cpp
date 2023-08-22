@@ -1,20 +1,14 @@
 #include <iostream>
-#include <vector>
 #include <ctime>
-
 #include "player.h"
-
 using namespace std;
 
 
 
 
 int main() {
-    srand(static_cast<unsigned>(time(nullptr))); // Seed the random number generator
-
-    maze::init_map();
     hide_cursor();
-    init_player();
+    player::init_player();
 
     char input;
 
@@ -25,16 +19,16 @@ int main() {
 
         switch (input) {
             case 'w':
-                move_player(0, -1);
+                player::move_player(0, -1);
                 break;
             case 's':
-                move_player(0, 1);
+                player::move_player(0, 1);
                 break;
             case 'a':
-                move_player(-1, 0);
+                player::move_player(-1, 0);
                 break;
             case 'd':
-                move_player(1, 0);
+                player::move_player(1, 0);
                 break;
             default:
                 break;
