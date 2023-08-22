@@ -10,7 +10,7 @@ namespace maze {
 
   // Maze symbols
   const char* wall_symbol = "\u2588";
-  const char* player_A_symbol = "A";
+  const char* player_symbol = "A";
   const char* empty_symbol = " ";
 
 

@@ -1,13 +1,8 @@
 #include "maze.h"
 
 // Player position
-int player_A_x = 1;
-int player_A_y = 1;
-
-enum PlayerType {
-  A = 'A',
-  B = 'B',
-};
+int player_x = 1;
+int player_y = 1;
 
 bool can_move(int x, int y) {
   if (x < 0 || y < 0 || x >= maze::maze_width || y >= maze::maze_height) return false;
@@ -15,13 +10,17 @@ bool can_move(int x, int y) {
 }
 
 void move_player(int dx, int dy) {
-  int newX = player_A_x + dx;
-  int newY = player_A_y + dy;
+  int newX = player_x + dx;
+  int newY = player_y + dy;
 
   if (can_move(newX, newY)) {
-    maze::Map[player_A_y][player_A_x] = maze::empty_symbol;
-    player_A_x = newX;
-    player_A_y = newY;
-    maze::Map[player_A_y][player_A_x] = maze::player_A_symbol;
+    maze::Map[player_y][player_x] = maze::empty_symbol;
+    player_x = newX;
+    player_y = newY;
+    maze::Map[player_y][player_x] = maze::player_symbol;
   }
+}
+
+void init_player() {
+  maze::Map[player_x][player_y] = maze::player_symbol;
 }

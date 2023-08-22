@@ -14,8 +14,7 @@ int main() {
 
     maze::init_map();
     hide_cursor();
-
-    maze::Map[player_A_x][player_A_y] = maze::player_A_symbol;
+    init_player();
 
     char input;
 
