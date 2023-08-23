@@ -10,7 +10,7 @@ namespace Arena {
 
   // arena symbols
   const char* wall_symbol = "\u2588";
-  const char* player_symbol = "A";
+  const char* player_symbol = "\U0001FBC7";
   const char* empty_symbol = " ";
 
 
@@ -36,7 +36,7 @@ namespace Arena {
     // Create the Map layout
     for (int y = 1; y < arena_height - 1; ++y) {
       for (int x = 1; x < arena_width - 1; ++x) {
-        if (y % 2 == 0 && x % 2 == 0 || rand() % 7 == 0) {
+        if ((y % 2 == 0 && x % 2 == 0) || rand() % 9 == 2) {
           Map[y][x] = wall_symbol;
         }
         else {
@@ -49,8 +49,8 @@ namespace Arena {
   void print_map() {
     clear_console();
 
-    for (int y = 0; y < arena_width; ++y) {
-      for (int x = 0; x < arena_height; ++x) {
+    for (int y = 0; y < arena_height; ++y) {
+      for (int x = 0; x < arena_width; ++x) {
         cout << Map[y][x];
       }
       cout << endl;
