@@ -4,8 +4,6 @@
 using namespace std;
 
 
-
-
 int main() {
     hide_cursor();
     Arena::initialize_map();
