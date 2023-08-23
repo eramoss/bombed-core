@@ -1,13 +1,12 @@
 #include <iostream>
 #include <ctime>
-#include "player.h"
+#include "arena.h"
 using namespace std;
 
 
 int main() {
     hide_cursor();
     Arena::initialize_map();
-    player::init_player();
 
     char input;
 
@@ -18,16 +17,16 @@ int main() {
 
         switch (input) {
             case 'w':
-                player::move_player(0, -1);
+                Arena::move_player(0, -1);
                 break;
             case 's':
-                player::move_player(0, 1);
+                Arena::move_player(0, 1);
                 break;
             case 'a':
-                player::move_player(-1, 0);
+                Arena::move_player(-1, 0);
                 break;
             case 'd':
-                player::move_player(1, 0);
+                Arena::move_player(1, 0);
                 break;
             default:
                 break;
