@@ -3,6 +3,7 @@
 
 #ifdef _WIN32
 #include <windows.h>
+#include <conio.h>
 
 void clear_console() {
   system("cls"); // Clear the console on Windows
@@ -14,6 +15,10 @@ void hide_cursor() {
   GetConsoleCursorInfo(hConsole, &cursorInfo);
   cursorInfo.bVisible = false;
   SetConsoleCursorInfo(hConsole, &cursorInfo);
+}
+
+char get_input_without_enter() {
+  return _getch();
 }
 
 #else
@@ -28,10 +33,6 @@ void clear_console() {
 void hide_cursor() {
   std::cout << "\033[?25l"; // Hide the cursor using ANSI escape sequence
 }
-
-#endif
-
-
 
 char get_input_without_enter() {
   struct termios old_terminal, new_terminal;
@@ -48,3 +49,5 @@ char get_input_without_enter() {
 
   return input;
 }
+
+#endif
