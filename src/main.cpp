@@ -13,7 +13,7 @@ int main() {
     char input;
 
     while (true) {
-        maze::print_maze();
+        Arena::print_map();
 
         input = get_input_without_enter(); // Get a character from the keyboard
 
