@@ -8,6 +8,7 @@ using namespace std;
 
 int main() {
     hide_cursor();
+    Arena::initialize_map();
     player::init_player();
 
     char input;
