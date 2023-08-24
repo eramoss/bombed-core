@@ -28,6 +28,7 @@ const char* explosion = "\u2591";
 const char* great_explosion = "\u2592";
 const char* greater_explosion = "\u2593";
 const char* bomb_character = "\u06de";
+const char* enemy_symbol = "$";
 
 #endif // _WIN32
 
