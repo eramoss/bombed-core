@@ -28,8 +28,14 @@ int main() {
             case 'd':
                 Arena::move_player(1, 0);
                 break;
+            case 'b':
+                player::put_bomb();
+                break;
             default:
                 break;
+        }
+        if (bomb::bomb_enabled) {
+            bomb::ticks_to_explode++;
         }
     }
 

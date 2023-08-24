@@ -1,5 +1,4 @@
-#include "services/consts.h"
-
+#include "bomb.h"
 namespace player {
   using namespace std;
 
@@ -22,6 +21,10 @@ namespace player {
       player_y = newY;
       Map[player_y][player_x] = player_symbol;
     }
+  }
+
+  void put_bomb() {
+    bomb::activate_bomb(player_x, player_y);
   }
 
 }

@@ -14,13 +14,15 @@ const char* empty_symbol = &c_empty_symbol;
 
 // arena symbols
 
-const char* wall_symbol = "\u2588";
+const char* strong_wall_symbol = "\u2588";
 const char* player_symbol = "\U0001FBC7";
 const char* empty_symbol = " ";
+
 
 #endif // _WIN32
 
 
 const char* explosion = "\U0001BAC7";
 const char* great_explosion = "\U0001BAC7";
-const char* greatest_explosion = "\U0001BAC7";
+const char* greater_explosion = "\U0001BAC7";
+const char* bomb_character = "@";

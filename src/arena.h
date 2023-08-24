@@ -14,6 +14,8 @@ namespace Arena {
   void create_map_layout_random();
   void init_player();
   void move_player(int dx, int dy);
+  bool is_bomb_on(int x, int y);
+  bool is_player_on(int x, int y);
 
 
   // arena layout
@@ -39,7 +41,13 @@ namespace Arena {
 
     for (int y = 0; y < arena_height; ++y) {
       for (int x = 0; x < arena_width; ++x) {
-        cout << Map[y][x];
+        if (!is_bomb_on(x, y) || is_player_on(x, y)) {
+          cout << Map[y][x];
+        }
+        else {
+          cout << bomb_character;
+        }
+
       }
       cout << endl;
     }
@@ -47,12 +55,12 @@ namespace Arena {
 
   void create_map_borders() {
     for (int y = 0; y < arena_height; ++y) {
-      Map[y][0] = wall_symbol;
-      Map[y][arena_width - 1] = wall_symbol;
+      Map[y][0] = strong_wall_symbol;
+      Map[y][arena_width - 1] = strong_wall_symbol;
     }
     for (int x = 0; x < arena_width; ++x) {
-      Map[0][x] = wall_symbol;
-      Map[arena_height - 1][x] = wall_symbol;
+      Map[0][x] = strong_wall_symbol;
+      Map[arena_height - 1][x] = strong_wall_symbol;
     }
   }
 
@@ -62,13 +70,20 @@ namespace Arena {
     for (int y = 1; y < arena_height - 1; ++y) {
       for (int x = 1; x < arena_width - 1; ++x) {
         if (ENTROPY_MAP_GENERATOR) {
-          Map[y][x] = wall_symbol;
+          Map[y][x] = strong_wall_symbol;
         }
         else {
           Map[y][x] = empty_symbol;
         }
       }
     }
+  }
+
+  bool is_bomb_on(int x, int y) {
+    return bomb::bomb_x == x && bomb::bomb_y == y;
+  }
+  bool is_player_on(int x, int y) {
+    return player::player_x == x && player::player_y == y;
   }
 
 }
