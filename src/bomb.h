@@ -18,7 +18,6 @@ namespace bomb {
   void create_sprite_animation(int x, int y, string map[arena_height][arena_width], const char* sprite);
   void activate_bomb(int x, int y);
   void destroy_bomb(string map[arena_height][arena_width]);
-  bool bomb_out_of_origin();
 
 
   // define o lugar que vai sair a bomba

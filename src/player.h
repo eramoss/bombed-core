@@ -8,10 +8,13 @@ namespace player {
 
   int movements_with_bomb_in_map = 0;
 
+  // functions interface*
+  bool can_move(int x, int y, string Map[arena_height][arena_width]);
+  void move(int dx, int dy, string Map[arena_height][arena_width]);
+  void put_bomb();
+  bool bomb_was_placed();
 
-  bool bomb_was_placed() {
-    return bomb::bomb_x != -1 && bomb::bomb_y != -1;
-  }
+
 
   bool can_move(int x, int y, string Map[arena_height][arena_width]) {
     if (x < 0 || y < 0 || x >= arena_width || y >= arena_height) return false;
@@ -36,6 +39,9 @@ namespace player {
 
   void put_bomb() {
     bomb::activate_bomb(player_x, player_y);
+  }
+  bool bomb_was_placed() {
+    return bomb::bomb_x != -1 && bomb::bomb_y != -1;
   }
 
 
