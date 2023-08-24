@@ -7,8 +7,8 @@ int main() {
 
     cout << "Numero da matriz: ";
     cin >> n;
-
-    cout << "int matriz[" << n << "][" << n << "] = {" << endl;
+for(int i = 1; i < 4; i++){
+    cout << "int map"<<i<<"[" << n << "][" << n << "] = {" << endl;
     for (int i = 0; i < n; i++) {
         cout << "{";
         for (int j = 0; j < n; j++) {
@@ -29,6 +29,6 @@ int main() {
         cout << endl;
     }
     cout << "};" << endl;
-
+}
     return 0;
 }
