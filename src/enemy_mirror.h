@@ -1,10 +1,9 @@
-#include "bomb.h"
 namespace enemy_mirror {
   using namespace std;
 
   // enemy position
-  int enemy_x = arena_width-3;
-  int enemy_y = arena_height-3;
+  int enemy_x = arena_width - 3;
+  int enemy_y = arena_height - 3;
 
   // functions interface*
   bool can_move(int x, int y, string Map[arena_height][arena_width]);
@@ -27,5 +26,5 @@ namespace enemy_mirror {
       Map[enemy_y][enemy_x] = enemy_symbol;
     }
 
-}
+  }
 }
