@@ -6,6 +6,13 @@ namespace player {
   int player_x = 1;
   int player_y = 1;
 
+  int movements_with_bomb_in_map = 0;
+
+
+  bool bomb_was_placed() {
+    return bomb::bomb_x != -1 && bomb::bomb_y != -1;
+  }
+
   bool can_move(int x, int y, string Map[arena_height][arena_width]) {
     if (x < 0 || y < 0 || x >= arena_width || y >= arena_height) return false;
     return Map[y][x] == empty_symbol;
@@ -21,10 +28,16 @@ namespace player {
       player_y = newY;
       Map[player_y][player_x] = player_symbol;
     }
+
+    if (bomb_was_placed()) {
+      movements_with_bomb_in_map++;
+    }
   }
 
   void put_bomb() {
     bomb::activate_bomb(player_x, player_y);
   }
+
+
 
 }

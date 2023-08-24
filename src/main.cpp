@@ -1,6 +1,6 @@
 #include <iostream>
 #include <ctime>
-#include "arena.h"
+#include "game.h"
 using namespace std;
 
 
@@ -34,9 +34,7 @@ int main() {
             default:
                 break;
         }
-        if (bomb::bomb_enabled) {
-            bomb::ticks_to_explode++;
-        }
+        game::check_bomb_ticks_to_destroy();
     }
 
     return 0;
