@@ -1,6 +1,7 @@
 #include <iostream>
 #include "services/console_helpers.h"
 #include "player.h"
+#include "enemy_mirror.h"
 
 #define ENTROPY_MAP_GENERATOR (y % 2 == 0 && x % 2 == 0) || rand() % 9 == 2
 using namespace std;
@@ -30,10 +31,12 @@ namespace Arena {
 
   void move_player(int dx, int dy) {
     player::move(dx, dy, Map);
+    enemy_mirror::move(dx, dy, Map);
   }
 
   void init_player() {
     Map[1][1] = player_symbol;
+    Map[arena_height-3][arena_width-3]= enemy_symbol;
   }
 
   void print_map() {
@@ -83,7 +86,7 @@ namespace Arena {
     return bomb::bomb_x == x && bomb::bomb_y == y;
   }
   bool is_player_on(int x, int y) {
-    return player::player_x == x && player::player_y == y;
+    return player::player_x == x && player::player_y == y && enemy_mirror::enemy_x==x && enemy_mirror::enemy_y==y;
   }
 
 }
