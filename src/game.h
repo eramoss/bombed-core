@@ -37,7 +37,7 @@ namespace game {
     if (Arena::Map[player::player_y][player::player_x] != player_symbol) {
       game_over();
     }
-    if (enemy_mirror::enemy_x == player::player_x && enemy_mirror::enemy_y == player::player_y) game_over();
+    if ((enemy_mirror::enemy_x == player::player_x && enemy_mirror::enemy_y == player::player_y) && !enemy_mirror::defeated(Arena::Map)) game_over();
   }
 
 }

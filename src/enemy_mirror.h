@@ -8,11 +8,12 @@ namespace enemy_mirror {
   // functions interface*
   bool can_move(int x, int y, string Map[arena_height][arena_width]);
   void move(int dx, int dy, string Map[arena_height][arena_width]);
+  bool defeated(string Map[arena_height][arena_width]);
 
 
   bool can_move(int x, int y, string Map[arena_height][arena_width]) {
     if (x < 0 || y < 0 || x >= arena_width || y >= arena_height) return false;
-    return Map[y][x] == empty_symbol || Map[y][x] == player_symbol;
+    return (Map[y][x] == empty_symbol || Map[y][x] == player_symbol) && !defeated(Map);
   }
 
   void move(int dx, int dy, string Map[arena_height][arena_width]) {
@@ -26,5 +27,9 @@ namespace enemy_mirror {
       Map[enemy_y][enemy_x] = enemy_symbol;
     }
 
+  }
+
+  bool defeated(string Map[arena_height][arena_width]) {
+    return Map[enemy_y][enemy_x] != enemy_symbol;
   }
 }
