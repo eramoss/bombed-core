@@ -41,7 +41,7 @@ namespace Arena {
   }
 
   void print_map() {
-    clear_console();
+    clear_console(true);
 
     for (int y = 0; y < arena_height; ++y) {
       for (int x = 0; x < arena_width; ++x) {

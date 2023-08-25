@@ -5,8 +5,18 @@
 #include <windows.h>
 #include <conio.h>
 
-void clear_console() {
-  system("cls"); // Clear the console on Windows
+void clear_console(bool is_to_print_map = false) {
+  if (is_to_print_map) {
+    short int CX = 0, CY = 0;
+    COORD coord;
+    coord.x = CX;
+    coord.y = CY;
+
+    setConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+  }
+  else {
+    system("cls"); // Clear the console on Windows
+  }
 }
 
 void hide_cursor() {
@@ -26,8 +36,9 @@ char get_input_without_enter() {
 #include <termios.h>
 #include <sys/ioctl.h>
 
-void clear_console() {
-  system("clear"); // Clear the console on Linux
+void clear_console(bool is_to_print_map = false) {
+  is_to_print_map ?
+    system("clear") : system("clear"); // Clear the console on Linux
 }
 
 void hide_cursor() {
