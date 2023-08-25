@@ -20,10 +20,23 @@ namespace game {
     for (int sprite_index = 0; sprite_index < AMOUNT_OF_SPRITES; sprite_index++) {
       bomb::create_sprite_animation(bomb::bomb_x, bomb::bomb_y, Arena::Map, bomb::sprite_animations[sprite_index]);
       Arena::print_map();
-      usleep(200000);
+      usleep(50000);
+    }
+    for (int sprite_index = 0; sprite_index < AMOUNT_OF_SPRITES; sprite_index++) {
+      bomb::create_sprite_animation(bomb::bomb_x, bomb::bomb_y, Arena::Map, bomb::sprite_animations[sprite_index]);
+      Arena::print_map();
+      usleep(50000);
     }
     bomb::destroy_bomb(Arena::Map);
   }
 
+  void game_over() {
+    exit(0);
+  }
+  void check_player_death() {
+    if (Arena::Map[player::player_y][player::player_x] != player_symbol) {
+      game_over();
+    }
+  }
 
 }

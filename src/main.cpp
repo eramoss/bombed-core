@@ -35,6 +35,7 @@ int main() {
                 break;
         }
         game::check_bomb_ticks_to_destroy();
+        game::check_player_death();
     }
 
     return 0;
