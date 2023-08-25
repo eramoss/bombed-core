@@ -12,7 +12,7 @@ namespace enemy_mirror {
 
   bool can_move(int x, int y, string Map[arena_height][arena_width]) {
     if (x < 0 || y < 0 || x >= arena_width || y >= arena_height) return false;
-    return Map[y][x] == empty_symbol;
+    return Map[y][x] == empty_symbol || Map[y][x] == player_symbol;
   }
 
   void move(int dx, int dy, string Map[arena_height][arena_width]) {
