@@ -26,6 +26,7 @@ namespace bomb {
     if (map[y - 1][x] != strong_wall_symbol) map[y - 1][x] = sprite;
     if (map[y][x - 1] != strong_wall_symbol) map[y][x - 1] = sprite;
     if (map[y][x + 1] != strong_wall_symbol) map[y][x + 1] = sprite;
+    if (map[y][x] != strong_wall_symbol) map[y][x] = sprite;
   }
 
   // Ativamento da bomba
