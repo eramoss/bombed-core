@@ -22,12 +22,12 @@ char* enemy_symbol = "$";
 // arena symbols
 
 const char* strong_wall_symbol = "\u2588";
-const char* player_symbol = "\U0001FBC7";
+const char* player_symbol = "&";
 const char* empty_symbol = " ";
 const char* explosion = "\u2591";
 const char* great_explosion = "\u2592";
 const char* greater_explosion = "\u2593";
-const char* bomb_character = "\u06de";
+const char* bomb_character = "\u25C9";
 const char* enemy_symbol = "$";
 
 #endif // _WIN32
