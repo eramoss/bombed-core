@@ -89,7 +89,7 @@ namespace Arena {
       Map[y][x] = strong_wall_symbol;
     }
     else {
-      Map[y][x] = weak_wall;
+      Map[y][x] = weak_wall_symbol;
     }
   }
 

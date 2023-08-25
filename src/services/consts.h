@@ -30,7 +30,7 @@ const char* great_explosion = "\u2592\u2592";
 const char* greater_explosion = "\u2593\u2593";
 const char* bomb_character = "\U0001F4A3";
 const char* enemy_symbol = "\U0001F47B";
-const char* weak_wall = "\u2592\u2592";
+const char* weak_wall_symbol = "\u2592\u2592";
 
 #endif // _WIN32
 
