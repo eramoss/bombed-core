@@ -16,6 +16,7 @@ char c_greater_explosion = char(178);
 char* greater_explosion = &c_greater_explosion;
 char* bomb_character = "@";
 char* enemy_symbol = "$";
+char* weak_wall = &c_great_explosion;
 
 #else
 
@@ -29,6 +30,7 @@ const char* great_explosion = "\u2592";
 const char* greater_explosion = "\u2593";
 const char* bomb_character = "\u25C9";
 const char* enemy_symbol = "$";
+const char* weak_wall = "\u2592";
 
 #endif // _WIN32
 
