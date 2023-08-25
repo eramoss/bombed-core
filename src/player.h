@@ -38,7 +38,9 @@ namespace player {
   }
 
   void put_bomb() {
-    bomb::activate_bomb(player_x, player_y);
+    if (!bomb_was_placed()) {
+      bomb::activate_bomb(player_x, player_y);
+    }
   }
   bool bomb_was_placed() {
     return bomb::bomb_x != -1 && bomb::bomb_y != -1;
