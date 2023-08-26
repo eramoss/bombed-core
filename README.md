@@ -1,4 +1,4 @@
-# Bonbed_core
+# Bombed_core
 
 Welcome to the Bombed_core, a Bomberman-like game! This is a simple text-based game where you control a player in an arena, avoiding obstacles, placing bombs, and trying to defeat the enemy.
 
