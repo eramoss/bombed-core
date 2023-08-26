@@ -20,7 +20,7 @@ Welcome to the Bombed_core, a Bomberman-like game! This is a simple text-based g
 1. Clone the repository:
 
    ```sh
-   git clone https://github.com/your-username/bomberman-game.git
+   git clone https://github.com/eramoss/bombed-core.git
    cd bombed_core
    ```
 
