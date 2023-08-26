@@ -1,6 +1,6 @@
-# Bomberman-like Game
+# Bonbed_core
 
-Welcome to the Bomberman-like game! This is a simple text-based game where you control a player in an arena, avoiding obstacles, placing bombs, and trying to defeat the enemy.
+Welcome to the Bombed_core, a Bomberman-like game! This is a simple text-based game where you control a player in an arena, avoiding obstacles, placing bombs, and trying to defeat the enemy.
 
 ## How to Play
 
@@ -39,7 +39,7 @@ Welcome to the Bomberman-like game! This is a simple text-based game where you c
 
    ```
 
-   for tests run `make test`
+   for tests run `make test` and `./build/tests`
 
 3. Follow the on-screen instructions to play the game.
 
