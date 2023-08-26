@@ -12,42 +12,6 @@ namespace game {
   void game_over();
 
 
-  void run_game() {
-    hide_cursor();
-    Arena::initialize_map();
-
-    char input;
-
-    while (true) {
-      Arena::print_map();
-
-      input = get_input_without_enter(); // Get a character from the keyboard
-
-      switch (input) {
-        case 'w':
-          Arena::make_movement(0, -1);
-          break;
-        case 's':
-          Arena::make_movement(0, 1);
-          break;
-        case 'a':
-          Arena::make_movement(-1, 0);
-          break;
-        case 'd':
-          Arena::make_movement(1, 0);
-          break;
-        case 'b':
-          player::put_bomb();
-          break;
-        default:
-          break;
-      }
-      check_bomb_ticks_to_destroy();
-      check_player_death();
-      check_enemy_deaths();
-    }
-  }
-
   /**
    * Executa o jogo, controlando os eventos de movimento, bombas e condições de derrota.
    */

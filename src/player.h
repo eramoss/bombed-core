@@ -45,7 +45,7 @@ namespace player {
       Map[player_y][player_x] = player_symbol;
     }
 
-    if (bomb_was_placed()) {
+    if (bomb_was_placed()) { // para controlar a explosão da bomba
       movements_with_bomb_in_map++;
     }
   }
