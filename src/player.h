@@ -1,4 +1,5 @@
 #include "bomb.h"
+#include "services/consts.h"
 namespace player {
   using namespace std;
 

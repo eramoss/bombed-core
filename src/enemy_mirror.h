@@ -1,3 +1,5 @@
+#include "services/consts.h"
+
 namespace enemy_mirror {
   using namespace std;
 

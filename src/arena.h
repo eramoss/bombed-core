@@ -1,5 +1,7 @@
 #include <iostream>
 #include "services/console_helpers.h"
+#include "services/consts.h"
+
 #include "player.h"
 #include "enemy_mirror.h"
 
@@ -17,7 +19,7 @@ namespace Arena {
   void init_player();
   void make_movement(int dx, int dy);
   bool is_bomb_on(int x, int y);
-  bool is_player_on(int x, int y);
+  bool is_character_on(int x, int y);
 
 
   // arena layout
@@ -45,7 +47,7 @@ namespace Arena {
 
     for (int y = 0; y < arena_height; ++y) {
       for (int x = 0; x < arena_width; ++x) {
-        if (!is_bomb_on(x, y) || is_player_on(x, y)) {
+        if (!is_bomb_on(x, y) || is_character_on(x, y)) {
           cout << Map[y][x];
         }
         else {
@@ -96,8 +98,8 @@ namespace Arena {
   bool is_bomb_on(int x, int y) {
     return bomb::bomb_x == x && bomb::bomb_y == y;
   }
-  bool is_player_on(int x, int y) {
-    return player::player_x == x && player::player_y == y && enemy_mirror::enemy_x == x && enemy_mirror::enemy_y == y;
+  bool is_character_on(int x, int y) {
+    return (player::player_x == x && player::player_y == y) || (enemy_mirror::enemy_x == x && enemy_mirror::enemy_y == y);
   }
 
 }
