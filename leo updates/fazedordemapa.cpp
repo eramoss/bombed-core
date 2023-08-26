@@ -4,11 +4,12 @@ using namespace std;
 
 int main() {
     int n;
+    int m;
 
-    cout << "Numero da matriz: ";
+    cout << "Numero da matriz N X: ";
     cin >> n;
 for(int i = 1; i < 4; i++){
-    cout << "int map"<<i<<"[" << n << "][" << n << "] = {" << endl;
+    cout << "int map"<<i<<"[" << n << "][" << m << "] = {" << endl;
     for (int i = 0; i < n; i++) {
         cout << "{";
         for (int j = 0; j < n; j++) {

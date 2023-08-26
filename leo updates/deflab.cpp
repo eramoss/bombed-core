@@ -56,7 +56,16 @@ bool activeBomb = false; // Define a bomba como inativa
 int radiusBomb = 2;
 int choiceMenu, choiceMap; // Variávieis do menu
 bool superBomb = false;
-int superPower = 3;
+int countPower = 3;
+
+void setConsolePosition(){
+    short int cX = 0;
+    short int cY = 0;
+    COORD coord;
+    coord.X = cX;
+    coord.Y = cY;
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+}
 
 // Mover os jogadores/especial
 void movePlayer(int player[], char move, bool isSpecial = false) {
@@ -97,6 +106,7 @@ void buildMap(int chosenMap[11][11]) {
     }
 }
 
+// Poderes no mapa
 void spawnPower() {
 
     srand(time(0)); // Aleatoriedade
@@ -104,18 +114,18 @@ void spawnPower() {
     for (int i = 0; i < 11; i++) {
         for (int j = 0; j < 11; j++) {
             if (map[i][j] == 4) { // Confere quantos poderes já tem no mapa
-                superPower--;     // Diminui da quantidade total de poderes
+                countPower--;     // Diminui da quantidade total de poderes
             }
         }
     }
 
-    while (superPower > 0) {
+    while (countPower > 0) {
         int randomMapX = rand() % 11; // Pega um X aleatório
         int randomMapY = rand() % 11; // Pega um Y aleatório
 
         if (map[randomMapX][randomMapY] == 0) { // Confere se é um espaço vazio
             map[randomMapX][randomMapY] = 4;    // Insere o poderzinho
-            superPower--; // Repete até ter 3 poderes no mapa
+            countPower--; // Repete até ter 3 poderes no mapa
         }
     }
 }
@@ -195,18 +205,18 @@ void animationBomb() {
     int animation[4] = {explosion, great_explosion, greater_explosion, 0};
 
     // Cout da explosão
-    for (int i = 0; i < 3; i++){
+    for (int i = 0; i < 2; i++){
         for (int ex = 0; ex < 4; ex++) {
 
             // Manda a localização da bomba e o sprite relativo ao vetor
             explosionAnimation(bomb[0], bomb[1], animation[ex], superBomb);
-            system("cls");
+            setConsolePosition();
 
             // Escreve a matriz, já com o sprite da explosão
             displayMap();
 
             // FPS? da explosão
-            Sleep(100);
+            Sleep(60);
         }   
     }
 
@@ -239,7 +249,7 @@ void ticksBomb(){
             bomb[1] = -1;         //    para o local de
             activeBomb = false;   //    origem e reseta
 
-            system("cls");  // Mostra o mapa depois da bomba explodir,
+            setConsolePosition();  // Mostra o mapa depois da bomba explodir,
             displayMap();   // pra bomba sumir antes do jogador andar
 
         } else {
@@ -270,72 +280,121 @@ void hide_cursor() {
   SetConsoleCursorInfo(hConsole, &cursorInfo);
 }
 
+// Layout do jogo
 void layoutJogar(int &choiceMap){
     system("cls");
+    setConsolePosition();
     std::cout << "+-------------------------------------------------------------------------------------+\n"
-                 "|                                                                                     |\n"
-                 "|                                Escolha o seu mapa:                                  |\n"
-                 "|                                                                                     |\n"
-                 "|                                                                                     |\n"
-                 "|            Mapa 1                     Mapa 2                      Mapa 3            |\n"
-                 "|     +-------------------+      +-------------------+      +-------------------+     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     |                   |      |                   |      |                   |     |\n"
-                 "|     +-------------------+      +-------------------+      +-------------------+     |\n"
-                 "|                                                                                     |\n"
-                 "|       Dificuldade: 1/11          Dificuldade: 5/11          Dificuldade: 11/11      |\n"
-                 "|                                                                                     |\n"
-                 "|      Um guerreiro covarde        Um guerreiro justo         Para o verdadeiro       |\n"
-                 "|        morre mil mortes,         nunca anda sozinho,        guerreiro, o maior      |\n"
-                 "|      o valente apenas uma        a honra o acompanha        desafio e o chamado     |\n"
-                 "|                                                                                     |\n"
-                 "|                                                                                     |\n"
+                 "|                                                                                      |\n"
+                 "|                                Escolha o seu mapa:                                   |\n"
+                 "|                                                                                      |\n"
+                 "|                                                                                      |\n"
+                 "|            Mapa 1                     Mapa 2                      Mapa 3             |\n"
+                 "|     +--------------------+      +-------------------+      +-------------------+     |\n"
+                 "|     |                    |      |                   |      |                   |     |\n"
+                 "|     |  o  o  o  o  o  o  |      |                   |      |                   |     |\n"
+                 "|     |                    |      |                   |      |                   |     |\n"
+                 "|     |  o  o  o  o  o  o  |      |                   |      |                   |     |\n"
+                 "|     |                    |      |                   |      |                   |     |\n"
+                 "|     |  o  o  o  o  o  o  |      |                   |      |                   |     |\n"
+                 "|     |                    |      |                   |      |                   |     |\n"
+                 "|     |  o  o  o  o  o  o  |      |                   |      |                   |     |\n"
+                 "|     |                    |      |                   |      |                   |     |\n"
+                 "|     +--------------------+      +-------------------+      +-------------------+     |\n"
+                 "|                                                                                      |\n"
+                 "|       Dificuldade: 1/11          Dificuldade: 5/11          Dificuldade: 11/11       |\n"
+                 "|                                                                                      |\n"
+                 "|      Um guerreiro covarde        Um guerreiro justo         Para o verdadeiro        |\n"
+                 "|        morre mil mortes,         nunca anda sozinho,        guerreiro, o maior       |\n"
+                 "|      o valente apenas uma        a honra o acompanha        desafio e o chamado      |\n"
+                 "|                                                                                      |\n"
+                 "|                                                                                      |\n"
                  "+-------------------------------------------------------------------------------------+\n\n";
 
     std::cin >> choiceMap;
 }
 
 // Layout das Regras
-void layoutRegras(){
+void layoutRegras(){ 
     system("cls");
-    std::cout << "+--------------------------------------+\n"
-                 "|                                      |\n"
-                 "|                Regras                |\n"
-                 "|                                      |\n"
-                 "|--------------------------------------|\n"
-                 "|                                      |\n"
-                 "|  > Movimento automatico, pressione   |\n"
-                 "|      WASD para se mover no mapa.     |\n"
-                 "|                                      |\n"
-                 "|  > Pressione ENTER para soltar uma   |\n"
-                 "|     bomba no local do personagem.    |\n"
-                 "|                                      |\n"
-                 "|  > A bomba detona apos tres ticks    |\n"
-                 "|             do jogador.              |\n"
-                 "|                                      |\n"
-                 "|  > Bombas destroem paredes frageis,  |\n"
-                 "|      matam inimigos e o jogador.     |\n"
-                 "|                                      |\n"
-                 "|  > O jogador ganhara quando matar    |\n"
-                 "|          todos os inimigos.          |\n"
-                 "|                                      |\n"
-                 "+--------------------------------------+\n\n";
+    setConsolePosition();
+    std::string animatedRule[] = {
+        "  ._________________________________________________.    ",
+        " / \\                                                 \\ ",
+        "|   |                    Regras                      |   ",
+        "`.__|                                                |   ",
+        "    |                                                |   ",
+        "    |    > Movimento automatico, pressione WASD      |   ",
+        "    |          para mover o seu personagem.          |   ",
+        "    |                                                |   ",
+        "    |    > Pressione ENTER para soltar uma bomba     |   ",
+        "    |        no local onde esta seu personagem.      |   ",
+        "    |                                                |   ",
+        "    |    > Apos o jogador andar 3 vezes, a bomba     |   ",
+        "    |         ira detonar em formato de cruz.        |   ",
+        "    |                                                |   ",
+        "    |    > Bombas podem destruir paredes frageis,    |   ",
+        "    |           matar inimigos e o jogador.          |   ",
+        "    |                                                |   ",
+        "    |    > O jogador ganha quando acabar com todos   |   ",
+        "    |               os inimigos do mapa.             |   ",
+        "    |                                                |   ",
+        "    |  .------------------------------------------------.",
+        "    \\_/________________________________________________/"
+    };
+
+    for(int i = 0; i < 22; i++){
+        std::cout << animatedRule[i] << std::endl;
+        Sleep(100);
+    }
+    std::cout << std::endl << std::endl;
     system("pause");
 }
 
-// Int MAIN
-int main() {
+// Animação de vitória/derrota
+void animationLoser(){
+    setConsolePosition();
+    std::string animatedLose[] = { 
+    "     _____                           _____                    ",
+    "    |  __ \\                         |  _  |                   ",
+    "    | |  \\/  __ _  _ __ ___    ___  | | | |__   __  ___  _ __ ",
+    "    | | __  / _` || '_ ` _ \\  / _ \\ | | | |\\ \\ / / / _ \\| '__|",
+    "    | |_\\ \\| (_| || | | | | ||  __/ \\ \\_/ / \\ V / |  __/| |   ",
+    "     \\____/ \\__,_||_| |_| |_| \\___|  \\___/   \\_/   \\___||_|   "
+    };
 
-    hide_cursor(); // Esconde o cursor
+    for(int i = 0; i < 6; i ++){
+        std::cout << animatedLose[i] << std::endl;
+        Sleep(200);
+    }
 
-    // Menuzinho
+    std::cout << std::endl << std::endl;
+    system("pause");
+}
+void animationWinner(){
+    setConsolePosition();
+    std::string animatedWin[] = {
+    "__   __                _    _  _         _ ",
+    "\\ \\ / /               | |  | |(_)       | |",
+    " \\ V /   ___   _   _  | |  | | _  _ __  | |",
+    "  \\ /   / _ \\ | | | | | |/\\| || || '_ \\ | |",
+    "  | |  | (_) || |_| | \\  /\\  /| || | | ||_|",
+    "  \\_/   \\___/  \\__,_|  \\/  \\/ |_||_| |_|(_)"
+    };
+
+    for(int i = 0; i < 6; i ++){
+        std::cout << animatedWin[i] << std::endl;
+        Sleep(300);
+    }
+    
+    std::cout << std::endl << std::endl;
+    system("pause");
+}
+
+void displayMenu(){
     system("cls");
+    // Menuzinho
+    setConsolePosition();
     std::cout <<"______                    _                _ \n"
                 "| ___ \\                  | |              | |\n"
                 "| |_/ /  ___   _ __ ___  | |__    ___   __| |\n"
@@ -349,53 +408,16 @@ int main() {
                 "| \\__/\\| (_) || |   |  __/        \n"
                 " \\____/ \\___/ |_|    \\___|       Escolha: "; std::cin >> choiceMenu;
     std::cout << std::endl << std::endl << std::endl;
+}
 
-
-
-    // Escolha do menu
-    switch (choiceMenu) {
-        case 1:
-
-            layoutJogar(choiceMap);
-
-            // Escolha do mapa
-            switch (choiceMap) { 
-                case 1:
-                    buildMap(map1);
-                    break;
-                case 2:
-                    buildMap(map2);
-                    break;
-                case 3:
-                    buildMap(map3);
-                    break;
-                default:
-                    std::cout << "Opcao invalida." << std::endl;
-                    return 1;
-            }
-            
-            break;
-        case 2:
-
-            layoutRegras();
-
-            break;
-        case 3:
-            break;
-        default:
-            std::cout << "Opcao invalida." << std::endl;
-            // Tem q fazer voltar pras opções
-            break;
-    }
-
-    // Clear no menu pra começar o jogo
-    system("cls");
-
+// Jogo
+void playGame(){
+        
     while (true) {
 
         hide_cursor(); // Esconde o cursor
 
-        system("cls"); // Limpa o mapa anterior
+        setConsolePosition(); // Limpa o mapa anterior
 
         displayMap(); // Mostra o mapa atual
 
@@ -414,6 +436,60 @@ int main() {
         }
 
     }
+
+}
+
+// Int MAIN
+int main() {
+    while (true)
+    {
+        // Menu
+        hide_cursor(); // Esconde o cursor
+    
+        displayMenu();
+
+        switch (choiceMenu) {
+            case 1:
+                
+                layoutJogar(choiceMap);
+
+                // Escolha do mapa
+                switch (choiceMap) { 
+                    case 1:
+                        buildMap(map1);
+                        break;
+                    case 2:
+                        buildMap(map2);
+                        break;
+                    case 3:
+                        buildMap(map3);
+                        break;
+                    default:
+                        std::cout << "Opcao invalida." << std::endl;
+                        return 1;
+                }
+
+                system("cls");
+                // Clear no menu pra começar o jogo
+                setConsolePosition();
+
+                playGame();
+                
+            case 2:
+
+                layoutRegras();
+
+            case 3:
+                break;
+            default:
+                std::cout << "Opcao invalida." << std::endl;
+                // Tem q fazer voltar pras opções
+                break;
+        }
+    }
+    
+
+
 
     return 0;
 }
