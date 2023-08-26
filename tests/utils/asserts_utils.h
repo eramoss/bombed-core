@@ -10,4 +10,15 @@ namespace assertions_arena {
       }
     }
   }
+
+}
+
+namespace helpers {
+  void make_empty_map(string Map[arena_height][arena_width]) {
+    for (int i = 0; i < arena_height; i++) {
+      for (int j = 0; j < arena_width; j++) {
+        Map[i][j] = empty_symbol;
+      }
+    }
+  }
 }

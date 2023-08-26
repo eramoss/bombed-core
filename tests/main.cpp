@@ -16,7 +16,7 @@ namespace bomb_tests {
     bomb::bomb_x = 1;
     bomb::bomb_y = 1;
     string map_mock[arena_height][arena_width];
-    bomb::destroy_bomb(map_mock);
+    bomb::destroy_bomb_on_map(map_mock);
 
     assert(bomb::bomb_x == -1 && bomb::bomb_y == -1);
   }
@@ -34,8 +34,34 @@ namespace bomb_tests {
   }
 }
 
+namespace player_tests {
+  void move_test() {
+    string Map[arena_height][arena_width];
+    helpers::make_empty_map(Map);
+
+    int original_player_x = player::player_x;
+    int original_player_y = player::player_y;
+
+    player::move(1, 0, Map);
+
+    assert(player::player_x != original_player_x);
+    assert(player::player_y == original_player_y);
+  }
+
+  void player_should_walk_in_empty_map() {
+    string Map[arena_height][arena_width];
+    helpers::make_empty_map(Map);
+
+    assert(player::can_move(3, 3, Map));
+  }
+  void run_tests() {
+    move_test();
+  }
+}
+
 int main() {
   arena_tests::run_tests();
   bomb_tests::run_tests();
+  player_tests::run_tests();
   return 0;
 }
