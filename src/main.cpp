@@ -17,16 +17,16 @@ int main() {
 
         switch (input) {
             case 'w':
-                Arena::move_player(0, -1);
+                Arena::make_movement(0, -1);
                 break;
             case 's':
-                Arena::move_player(0, 1);
+                Arena::make_movement(0, 1);
                 break;
             case 'a':
-                Arena::move_player(-1, 0);
+                Arena::make_movement(-1, 0);
                 break;
             case 'd':
-                Arena::move_player(1, 0);
+                Arena::make_movement(1, 0);
                 break;
             case 'b':
                 player::put_bomb();
