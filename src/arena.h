@@ -15,7 +15,7 @@ namespace Arena {
   void create_map_layout_random();
   void place_wall(string Map[arena_height][arena_width], int x, int y);
   void init_player();
-  void move_player(int dx, int dy);
+  void make_movement(int dx, int dy);
   bool is_bomb_on(int x, int y);
   bool is_player_on(int x, int y);
 
@@ -30,7 +30,7 @@ namespace Arena {
     init_player();
   }
 
-  void move_player(int dx, int dy) {
+  void make_movement(int dx, int dy) {
     player::move(dx, dy, Map);
     enemy_mirror::move(dx, dy, Map);
   }
@@ -84,7 +84,7 @@ namespace Arena {
   }
 
   void place_wall(string Map[arena_height][arena_width], int x, int y) {
-    const double strong_wall_probability = 0.9;
+    const double strong_wall_probability = 0.7;
     if (static_cast<double>(rand()) / RAND_MAX < strong_wall_probability) {
       Map[y][x] = strong_wall_symbol;
     }

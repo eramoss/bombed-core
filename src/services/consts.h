@@ -1,5 +1,5 @@
-const int arena_width = 40;
-const int arena_height = 20;
+const int arena_width = 10;
+const int arena_height = 10;
 
 #ifdef _WIN32
 char c_wall_symbol = char(219);
