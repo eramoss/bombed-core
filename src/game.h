@@ -12,6 +12,7 @@ namespace game {
   void destroy_bomb();
 
   void check_player_death();
+  void check_enemy_deaths();
 
   void game_over();
 
@@ -48,6 +49,7 @@ namespace game {
       }
       check_bomb_ticks_to_destroy();
       check_player_death();
+      check_enemy_deaths();
     }
   }
 
@@ -82,6 +84,12 @@ namespace game {
 
   void check_player_death() {
     if (Arena::Map[player::player_y][player::player_x] != player_symbol) {
+      game_over();
+    }
+  }
+
+  void check_enemy_deaths() {
+    if (Arena::Map[enemy_mirror::enemy_y][enemy_mirror::enemy_x] != enemy_symbol) {
       game_over();
     }
   }
