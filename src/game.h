@@ -4,6 +4,8 @@ namespace game {
 
   // functions interface*
 
+  void run_game();
+
   void check_bomb_ticks_to_destroy();
   void destroy_bomb();
   void animate_bomb();
@@ -13,6 +15,41 @@ namespace game {
 
   void game_over();
 
+
+  void run_game() {
+    hide_cursor();
+    Arena::initialize_map();
+
+    char input;
+
+    while (true) {
+      Arena::print_map();
+
+      input = get_input_without_enter(); // Get a character from the keyboard
+
+      switch (input) {
+        case 'w':
+          Arena::make_movement(0, -1);
+          break;
+        case 's':
+          Arena::make_movement(0, 1);
+          break;
+        case 'a':
+          Arena::make_movement(-1, 0);
+          break;
+        case 'd':
+          Arena::make_movement(1, 0);
+          break;
+        case 'b':
+          player::put_bomb();
+          break;
+        default:
+          break;
+      }
+      check_bomb_ticks_to_destroy();
+      check_player_death();
+    }
+  }
 
   void check_bomb_ticks_to_destroy() {
     if (bomb::bomb_enabled) {
