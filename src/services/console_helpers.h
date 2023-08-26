@@ -1,3 +1,6 @@
+#ifndef console_helpers
+#define console_helpers 
+
 #include <iostream>
 #include <unistd.h>
 
@@ -62,3 +65,5 @@ char get_input_without_enter() {
 }
 
 #endif
+
+#endif // console_helpers

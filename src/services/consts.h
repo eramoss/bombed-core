@@ -1,3 +1,6 @@
+#ifndef consts
+#define consts
+
 const int arena_width = 10;
 const int arena_height = 10;
 
@@ -16,7 +19,7 @@ char c_greater_explosion = char(178);
 char* greater_explosion = &c_greater_explosion;
 char* bomb_character = "@";
 char* enemy_symbol = "$";
-char* weak_wall = &c_great_explosion;
+char* weak_wall_symbol = &c_great_explosion;
 
 #else
 
@@ -34,3 +37,4 @@ const char* weak_wall_symbol = "\u2592\u2592";
 
 #endif // _WIN32
 
+#endif // consts
