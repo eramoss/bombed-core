@@ -10,13 +10,13 @@ using namespace std;
 
 namespace Arena {
 
-  //functions interface *
+
   void print_map();
   void initialize_map();
   void create_map_borders();
   void create_map_layout_random();
   void place_wall(string Map[arena_height][arena_width], int x, int y);
-  void init_player();
+  void init_characters();
   void make_movement(int dx, int dy);
   bool is_bomb_on(int x, int y);
   bool is_character_on(int x, int y);
@@ -26,22 +26,18 @@ namespace Arena {
   string Map[arena_height][arena_width];
 
 
+  /**
+ * Inicializa o mapa, criando as bordas, o layout e posicionando o jogador e inimigo.
+ */
   void initialize_map() {
     create_map_borders();
     create_map_layout_random();
-    init_player();
+    init_characters();
   }
 
-  void make_movement(int dx, int dy) {
-    player::move(dx, dy, Map);
-    enemy_mirror::move(dx, dy, Map);
-  }
-
-  void init_player() {
-    Map[1][1] = player_symbol;
-    Map[arena_height - 3][arena_width - 3] = enemy_symbol;
-  }
-
+  /**
+   * Imprime o mapa no console, mostrando os caracteres do cenário, bombas e personagens.
+   */
   void print_map() {
     clear_console(true);
 
@@ -53,12 +49,14 @@ namespace Arena {
         else {
           cout << bomb_character;
         }
-
       }
       cout << endl;
     }
   }
 
+  /**
+   * Cria as bordas do mapa com paredes fortes.
+   */
   void create_map_borders() {
     for (int y = 0; y < arena_height; ++y) {
       Map[y][0] = strong_wall_symbol;
@@ -70,6 +68,9 @@ namespace Arena {
     }
   }
 
+  /**
+   * Cria o layout do mapa de forma aleatória.
+   */
   void create_map_layout_random() {
     srand(time(NULL));
 
@@ -85,6 +86,13 @@ namespace Arena {
     }
   }
 
+  /**
+   * Coloca uma parede no mapa na posição (x, y) com base em uma probabilidade.
+   *
+   * @param Map Mapa do cenário representado como uma matriz de strings
+   * @param x Coordenada X da posição
+   * @param y Coordenada Y da posição
+   */
   void place_wall(string Map[arena_height][arena_width], int x, int y) {
     const double strong_wall_probability = 0.7;
     if (static_cast<double>(rand()) / RAND_MAX < strong_wall_probability) {
@@ -95,11 +103,48 @@ namespace Arena {
     }
   }
 
+
+  /**
+ * Realiza o movimento do jogador e do inimigo espelho na direção (dx, dy).
+ *
+ * @param dx Mudança na coordenada X
+ * @param dy Mudança na coordenada Y
+ */
+  void make_movement(int dx, int dy) {
+    player::move(dx, dy, Map);
+    enemy_mirror::move(dx, dy, Map);
+  }
+
+
+  /**
+   * Verifica se há uma bomba na posição (x, y) do mapa.
+   *
+   * @param x Coordenada X da posição
+   * @param y Coordenada Y da posição
+   * @return true se houver uma bomba na posição, false caso contrário
+   */
   bool is_bomb_on(int x, int y) {
     return bomb::bomb_x == x && bomb::bomb_y == y;
   }
+
+  /**
+   * Verifica se há um personagem na posição (x, y) do mapa.
+   *
+   * @param x Coordenada X da posição
+   * @param y Coordenada Y da posição
+   * @return true se houver um personagem na posição, false caso contrário
+   */
   bool is_character_on(int x, int y) {
     return (player::player_x == x && player::player_y == y) || (enemy_mirror::enemy_x == x && enemy_mirror::enemy_y == y);
+  }
+
+
+  /**
+   * Inicializa a posição do jogador e inimigo no mapa.
+   */
+  void init_characters() {
+    Map[1][1] = player_symbol;
+    Map[arena_height - 3][arena_width - 3] = enemy_symbol;
   }
 
 }

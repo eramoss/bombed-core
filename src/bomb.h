@@ -17,10 +17,17 @@ namespace bomb {
   //functions interface *
   void create_sprite_animation(int x, int y, string map[arena_height][arena_width], const char* sprite);
   void activate_bomb(int x, int y);
-  void destroy_bomb(string map[arena_height][arena_width]);
+  void destroy_bomb_on_map(string map[arena_height][arena_width]);
 
 
-  // define o lugar que vai sair a bomba
+  /**
+ * Cria uma animação de sprite em torno da posição (x, y) no mapa, se não houver parede forte.
+ *
+ * @param x Coordenada X onde a animação será criada
+ * @param y Coordenada Y onde a animação será criada
+ * @param map Mapa do cenário representado como uma matriz de strings
+ * @param sprite O sprite que será colocado
+ */
   void create_sprite_animation(int x, int y, string map[arena_height][arena_width], const char* sprite) {
     if (map[y + 1][x] != strong_wall_symbol) map[y + 1][x] = sprite;
     if (map[y - 1][x] != strong_wall_symbol) map[y - 1][x] = sprite;
@@ -29,7 +36,12 @@ namespace bomb {
     if (map[y][x] != strong_wall_symbol) map[y][x] = sprite;
   }
 
-  // Ativamento da bomba
+  /**
+   * Ativa uma bomba na posição (x, y) no mapa.
+   *
+   * @param x Coordenada X da posição da bomba
+   * @param y Coordenada Y da posição da bomba
+   */
   void activate_bomb(int x, int y) {
     bomb_x = x;
     bomb_y = y;
@@ -37,8 +49,12 @@ namespace bomb {
     bomb_enabled = true;
   }
 
-
-  void destroy_bomb(string map[arena_height][arena_width]) {
+  /**
+   * Destroi a bomba ativada, criando animações de sprite ao redor da posição da bomba.
+   *
+   * @param map Mapa do cenário representado como uma matriz de strings
+   */
+  void destroy_bomb_on_map(string map[arena_height][arena_width]) {
     for (int sprite_index = 0; sprite_index < AMOUNT_OF_SPRITES; sprite_index++) {
       create_sprite_animation(bomb_x, bomb_y, map, sprite_animations[sprite_index]);
     }
