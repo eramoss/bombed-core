@@ -12,10 +12,10 @@ void clear_console(bool is_to_print_map = false) {
   if (is_to_print_map) {
     short int CX = 0, CY = 0;
     COORD coord;
-    coord.x = CX;
-    coord.y = CY;
+    coord.X = CX;
+    coord.Y = CY;
 
-    setConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
+    SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), coord);
   }
   else {
     system("cls"); // Clear the console on Windows

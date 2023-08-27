@@ -1,6 +1,7 @@
 #include <iostream>
 #include "services/console_helpers.h"
 #include "services/consts.h"
+#include <time.h>
 
 #include "player.h"
 #include "enemy_mirror.h"
