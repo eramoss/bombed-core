@@ -5,8 +5,9 @@
 
 #include "player.h"
 #include "enemy_mirror.h"
+#include "enemy_move_random.h"
 
-#define ENTROPY_MAP_GENERATOR (y % 2 == 0 && x % 2 == 0) || rand() % 9 == 2
+#define ENTROPY_MAP_GENERATOR (y % 2 == 0 && x % 2 == 0) || rand() % 11 == 2
 using namespace std;
 
 namespace Arena {
@@ -114,6 +115,7 @@ namespace Arena {
   void make_movement(int dx, int dy) {
     player::move(dx, dy, Map);
     enemy_mirror::move(dx, dy, Map);
+    enemy_move_randow::move_random(Map);
   }
 
 
@@ -146,6 +148,7 @@ namespace Arena {
   void init_characters() {
     Map[1][1] = player_symbol;
     Map[arena_height - 3][arena_width - 3] = enemy_symbol;
+    Map[1][arena_width - 3] = enemy_symbol;
   }
 
 }

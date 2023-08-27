@@ -101,7 +101,7 @@ namespace game {
    * Verifica se o inimigo espelho foi derrotado e encerra o jogo, se necessário.
    */
   void check_enemy_deaths() {
-    if (Arena::Map[enemy_mirror::enemy_y][enemy_mirror::enemy_x] != enemy_symbol) {
+    if (enemy_mirror::defeated(Arena::Map) && enemy_move_randow::defeated(Arena::Map)) {
       game_over();
     }
   }
