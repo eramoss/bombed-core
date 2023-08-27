@@ -88,6 +88,7 @@ namespace enemy_move_randow {
       move(dx, dy, Map);
     }
     else {
+      if (defeated(Map)) return;
       move_random(Map);
     }
   }
