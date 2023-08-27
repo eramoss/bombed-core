@@ -84,7 +84,11 @@ namespace enemy_move_randow {
         dy = 0;
         break;
     }
-
-    move(dx, dy, Map);
+    if (can_move(enemy_x - dx, enemy_y - dy, Map)) {
+      move(dx, dy, Map);
+    }
+    else {
+      move_random(Map);
+    }
   }
 }
