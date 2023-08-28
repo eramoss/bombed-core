@@ -1,7 +1,7 @@
 #include "game.h"
 #include "assets/menu.h"
 
-int main() {
+void start_menu() {
     while (true) {
         hide_cursor();
         int choice_map = menu::get_choice_menu();
@@ -25,5 +25,9 @@ int main() {
                 break;
         }
     }
+}
+
+int main() {
+    start_menu();
     return 0;
 }

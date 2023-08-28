@@ -4,7 +4,7 @@
 #define LOSE false
 
 namespace game {
-
+  bool over = false;
 
   void run_game();
   void check_bomb_ticks_to_destroy();
@@ -52,6 +52,7 @@ namespace game {
       check_bomb_ticks_to_destroy();
       check_player_death();
       check_enemy_deaths();
+      if (over) return;
     }
   }
 
@@ -118,6 +119,6 @@ namespace game {
     usleep(500000);
     if (is_win) animations::animation_winner();
     else animations::animations_loser();
-    exit(0);
+    over = true;
   }
 }

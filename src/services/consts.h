@@ -1,8 +1,8 @@
 #ifndef consts
 #define consts
 
-const int arena_width = 15;
-const int arena_height = 15;
+const int arena_width = 31;
+const int arena_height = 22;
 
 #ifdef _WIN32
 char c_wall_symbol = char(219);
