@@ -34,6 +34,10 @@ char get_input_without_enter() {
   return _getch();
 }
 
+void pause_console() {
+  system("pause");
+}
+
 #else
 
 #include <termios.h>
@@ -62,6 +66,10 @@ char get_input_without_enter() {
   tcsetattr(STDIN_FILENO, TCSANOW, &old_terminal);
 
   return input;
+}
+
+void pause_console() {
+  system("read 0 -p");
 }
 
 #endif
