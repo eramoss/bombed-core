@@ -1,4 +1,7 @@
 #include "arena.h"
+#include "assets/animations.h"
+#define WIN true
+#define LOSE false
 
 namespace game {
 
@@ -9,13 +12,14 @@ namespace game {
   void animate_bomb_on_map();
   void check_player_death();
   void check_enemy_deaths();
-  void game_over();
+  void game_over(bool is_win);
 
 
   /**
    * Executa o jogo, controlando os eventos de movimento, bombas e condições de derrota.
    */
-  void run_game() {
+  void run_game(int map) {
+    clear_console();
     hide_cursor();
     Arena::initialize_map();
 
@@ -93,7 +97,7 @@ namespace game {
    */
   void check_player_death() {
     if (Arena::Map[player::player_y][player::player_x] != player_symbol) {
-      game_over();
+      game_over(LOSE);
     }
   }
 
@@ -102,17 +106,18 @@ namespace game {
    */
   void check_enemy_deaths() {
     if (enemy_mirror::defeated(Arena::Map) && enemy_move_randow::defeated(Arena::Map)) {
-      game_over();
+      game_over(WIN);
     }
   }
 
   /**
    * Encerra o jogo, exibindo a tela de game over.
    */
-  void game_over() {
+  void game_over(bool is_win) {
     Arena::print_map();
-    sleep(1);
+    usleep(500000);
+    if (is_win) animations::animation_winner();
+    else animations::animations_loser();
     exit(0);
   }
-
 }
