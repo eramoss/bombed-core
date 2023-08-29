@@ -54,7 +54,6 @@ namespace game {
       check_bomb_ticks_to_destroy();
       check_player_death();
       check_enemy_deaths();
-      if (over) return;
     }
   }
 
@@ -121,6 +120,6 @@ namespace game {
     usleep(500000);
     if (is_win) animations::animation_winner();
     else animations::animations_loser();
-    over = true;
+    exit(0);
   }
 }
