@@ -17,8 +17,10 @@ char c_great_explosion = char(177);
 char* great_explosion = &c_great_explosion;
 char c_greater_explosion = char(178);
 char* greater_explosion = &c_greater_explosion;
-char* bomb_character = "@";
-char* enemy_symbol = "$";
+char c_bomb_character = char(64);
+char* bomb_character = &c_bomb_character;
+char c_enemy_symbol = char(36);
+char* enemy_symbol = &c_enemy_symbol;
 char* weak_wall_symbol = &c_great_explosion;
 
 #else
