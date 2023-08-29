@@ -1,5 +1,6 @@
 #include "services/consts.h"
 #include <string>
+#include "bomb.h"
 
 namespace enemy_mirror {
   using namespace std;
@@ -44,6 +45,7 @@ namespace enemy_mirror {
    */
   bool can_move(int x, int y, string Map[arena_height][arena_width]) {
     if (x < 0 || y < 0 || x >= arena_width || y >= arena_height) return false;
+    if (bomb::bomb_x == x && bomb::bomb_y == y) return false;
     return (Map[y][x] == empty_symbol || Map[y][x] == player_symbol) && !defeated(Map);
   }
 

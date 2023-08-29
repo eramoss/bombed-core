@@ -1,3 +1,6 @@
+#ifndef bomb
+#define bomb
+
 #include <string>
 #include "services/consts.h"
 #define MAX_TICKS_TO_EXPLODE 3
@@ -63,3 +66,5 @@ namespace bomb {
   }
 
 }
+
+#endif
