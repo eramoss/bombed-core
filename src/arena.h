@@ -11,10 +11,10 @@
 using namespace std;
 
 namespace Arena {
-
+  double map_difficulty;
 
   void print_map();
-  void initialize_map();
+  void initialize_map(int map_chosse);
   void create_map_borders();
   void create_map_layout_random();
   void place_wall(string Map[arena_height][arena_width], int x, int y);
@@ -30,8 +30,11 @@ namespace Arena {
 
   /**
  * Inicializa o mapa, criando as bordas, o layout e posicionando o jogador e inimigo.
+ *
+ * @param map_choose O mapa escolhido pelo jogador para gerar a dificuldade do mapa
  */
-  void initialize_map() {
+  void initialize_map(int map_choose) {
+    map_difficulty = map_choose;
     create_map_borders();
     create_map_layout_random();
     init_characters();
@@ -96,7 +99,7 @@ namespace Arena {
    * @param y Coordenada Y da posição
    */
   void place_wall(string Map[arena_height][arena_width], int x, int y) {
-    const double strong_wall_probability = 0.7;
+    const double strong_wall_probability = map_difficulty * map_difficulty / 15 + 0.3;
     if (static_cast<double>(rand()) / RAND_MAX < strong_wall_probability) {
       Map[y][x] = strong_wall_symbol;
     }

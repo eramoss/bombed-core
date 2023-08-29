@@ -5,7 +5,6 @@
 
 namespace game {
   bool over = false;
-
   void run_game();
   void check_bomb_ticks_to_destroy();
   void destroy_bomb_on_map();
@@ -17,11 +16,14 @@ namespace game {
 
   /**
    * Executa o jogo, controlando os eventos de movimento, bombas e condições de derrota.
+   *
+   * @param map_choose O mapa escolhido para passar para a arena.
    */
-  void run_game(int map) {
+  void run_game(int map_choose) {
+
     clear_console();
     hide_cursor();
-    Arena::initialize_map();
+    Arena::initialize_map(map_choose);
 
     char input;
 
