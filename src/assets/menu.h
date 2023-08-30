@@ -19,8 +19,9 @@ namespace menu {
       "| /  \\/  ___   _ __   ___        2 - Regras\n"
       "| |     / _ \\ | '__| / _ \\       3 - Sair\n"
       "| \\__/\\| (_) || |   |  __/        \n"
-      " \\____/ \\___/ |_|    \\___|       Escolha: "; std::cin >> choice_menu;
-
+      " \\____/ \\___/ |_|    \\___|       Escolha: "; 
+      
+    std::cin >> choice_menu;
     std::cout << std::endl << std::endl << std::endl;
 
     return choice_menu;
@@ -28,7 +29,7 @@ namespace menu {
 
 
   int select_map() {
-    int choice_menu;
+    int choice_map;
     do {
       clear_console();
       std::cout << "+-------------------------------------------------------------------------------------+\n"
@@ -58,9 +59,9 @@ namespace menu {
         "|                                                                                      |\n"
         "+-------------------------------------------------------------------------------------+\n\n";
 
-      std::cin >> choice_menu;
-    } while (choice_menu != 1 && choice_menu != 2 && choice_menu != 3);
-    return choice_menu;
+      std::cin >> choice_map;
+    } while (choice_map != 1 && choice_map != 2 && choice_map != 3);
+    return choice_map;
   }
 
 }

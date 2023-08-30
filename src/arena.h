@@ -99,7 +99,7 @@ namespace Arena {
    * @param y Coordenada Y da posição
    */
   void place_wall(string Map[arena_height][arena_width], int x, int y) {
-    const double strong_wall_probability = map_difficulty * map_difficulty / 15 + 0.3;
+    const double strong_wall_probability = map_difficulty * map_difficulty / 15 + 0.3; 
     if (static_cast<double>(rand()) / RAND_MAX < strong_wall_probability) {
       Map[y][x] = strong_wall_symbol;
     }

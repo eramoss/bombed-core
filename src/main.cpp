@@ -4,10 +4,10 @@
 void start_menu() {
     while (true) {
         hide_cursor();
-        int choice_map = menu::get_choice_menu();
+        int choice_menu = menu::get_choice_menu();
         int map;
 
-        switch (choice_map) {
+        switch (choice_menu) {
             case 1:
                 map = menu::select_map();
                 game::run_game(map);
