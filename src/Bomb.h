@@ -9,11 +9,7 @@
 #define AMOUNT_OF_SPRITES 4
 
 #include "services/consts.h"
-
-struct Coord {
-    int X;
-    int Y;
-};
+#include "Coord.h"
 
 class Bomb {
 public:

@@ -4,20 +4,16 @@
 
 #ifndef BOMBEDCORE_CHARACTER_H
 #define BOMBEDCORE_CHARACTER_H
-struct Coord{
-    int X;
-    int Y;
-};
-
+#include "../Coord.h"
 
 class Character {
 public:
-    Character() = default;
+    Character(Coord coord){coordinate = coord;};
     ~Character() = default;
 
     void move(int dx,int dy) {
-        int newX = coordinate.X - dx;
-        int newY = coordinate.Y - dy;
+        int newX = coordinate.X + dx;
+        int newY = coordinate.Y + dy;
 
         coordinate.X = newX;
         coordinate.Y = newY;
