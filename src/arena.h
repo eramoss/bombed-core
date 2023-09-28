@@ -2,8 +2,7 @@
 #include "services/console_helpers.h"
 #include "services/consts.h"
 #include <time.h>
-
-#include "player.h"
+#include "Player.h"
 #include "enemy_mirror.h"
 #include "enemy_move_random.h"
 
