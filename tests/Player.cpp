@@ -5,13 +5,13 @@
 #include <cassert>
 
 void create_bomb_as_active() {
-    auto * player = new Player(Coord(1,1));
+    auto * player = new Player(Coord{1,1});
     player->put_bomb();
     Bomb bomb = player->get_bomb();
     assert(bomb.active());
 }
 void create_bomb_in_player_place() {
-    auto * player = new Player(Coord(1,1));
+    auto * player = new Player(Coord{1,1});
     player->put_bomb();
     Bomb bomb = player->get_bomb();
 

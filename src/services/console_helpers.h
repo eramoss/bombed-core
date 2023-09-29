@@ -2,7 +2,6 @@
 #define console_helpers 
 
 #include <iostream>
-#include <unistd.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -39,7 +38,7 @@ void pause_console() {
 }
 
 #else
-
+#include <unistd.h>
 #include <termios.h>
 #include <sys/ioctl.h>
 
