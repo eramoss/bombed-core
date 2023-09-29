@@ -36,6 +36,7 @@ public:
     void activate(int x, int y) {
         coordinate.X = x;
         coordinate.Y = y;
+        is_active = true;
     }
     bool active(){
         return is_active;

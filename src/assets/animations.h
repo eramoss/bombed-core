@@ -1,7 +1,7 @@
 #ifndef animations
 #define animations
 #include <cstdlib>
-
+#include "../services/console_helpers.h"
 
 namespace animations {
   void animation_rules() {

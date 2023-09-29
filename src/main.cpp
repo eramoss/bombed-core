@@ -1,5 +1,5 @@
-//#include "game.h"
-//#include "assets/menu.h"
+
+#include "assets/menu.h"
 //
 //void start_menu() {
 //    while (true) {
@@ -29,5 +29,6 @@
 //
 int main() {
 //    start_menu();
+   std::cout <<"";
    return 0;
 }

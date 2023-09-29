@@ -4,7 +4,12 @@ project(BombedCore)
 set(CMAKE_CXX_STANDARD 20)
 
 add_executable(BombedCore src/main.cpp)
-add_executable(AllTests tests/Character.cpp)
+#add_executable(AllTests tests/Character.cpp
+#        tests/Player.cpp)
+
 
 enable_testing()
-add_test(AllTests AllTests)
+add_executable(PlayerTests tests/Player.cpp)
+add_test(PlayerTests PlayerTests)
+add_executable(CharacterTests tests/Character.cpp)
+add_test(CharacterTests CharacterTests)

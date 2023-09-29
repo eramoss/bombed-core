@@ -7,6 +7,14 @@
 struct Coord{
     int X;
     int Y;
+
+    bool operator==(Coord rhs){
+        return this->X == rhs.X && this->Y == rhs.Y;
+    };
+
+    bool operator!=(Coord rhs){
+        return this->X != rhs.X && this->Y != rhs.Y;
+    };
 };
 
 #endif //BOMBEDCORE_COORD_H

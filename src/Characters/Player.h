@@ -10,10 +10,7 @@
 
 class Player: public Character {
 public:
-    Player(int x, int y){
-        coordinate = Coord {
-            x,y
-        };
+    explicit Player(Coord coord) : Character(coord) {
     };
     ~Player() = default;
 
@@ -23,6 +20,9 @@ public:
         }
         bomb.activate(coordinate.X, coordinate.Y);
         return true;
+    }
+    Bomb get_bomb(){
+        return bomb;
     }
 private:
     Bomb bomb;
