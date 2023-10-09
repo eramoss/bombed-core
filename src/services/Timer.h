@@ -5,8 +5,9 @@
 #ifndef BOMBEDCORE_TIMER_H
 #define BOMBEDCORE_TIMER_H
 
-#include <functional>
-#include <thread>
+#include "functional"
+#include "thread"
+#include "mutex"
 #include "iostream"
 #include "chrono"
 
@@ -30,6 +31,16 @@ public:
     static void on_time_out(std::function<void()> callback, double milliseconds) {
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long long>(milliseconds)));
         callback();
+    }
+
+    static void async_time_out(std::function<void()> callback, double milliseconds) {
+        static std::mutex mtx;
+        std::thread([callback, milliseconds]() {
+            std::unique_lock<std::mutex> lock(mtx);
+
+            std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long long>(milliseconds)));
+            callback();
+        }).detach();
     }
 
 private:
