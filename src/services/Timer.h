@@ -46,10 +46,7 @@ public:
     }
 
     static void async_time_out(std::function<void()> callback, double milliseconds) {
-        static std::mutex mtx;
         std::thread([callback, milliseconds]() {
-            std::unique_lock<std::mutex> lock(mtx);
-
             std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long long>(milliseconds)));
             callback();
         }).detach();

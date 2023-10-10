@@ -51,17 +51,24 @@ void test_non_blocking_execute_callback(){
 
 
 void test_mtx_on_async_time_out(){
-    int shared_var = 0;
-    Timer::async_time_out([&shared_var](){
-        shared_var++;
-        }, 20);
-    Timer::async_time_out([&shared_var](){
-        shared_var++;
+    int shared_var ;
+    std::mutex mtx;
+    Timer timer;
+
+    Timer::async_time_out([&shared_var, &timer, &mtx](){
+        std::unique_lock<std::mutex> lock(mtx);
+        shared_var = 0;
+        std::cout << "First block executed in: " << timer.elapsed() << " ms. ";
     }, 20);
-    std::this_thread::sleep_for(std::chrono::milliseconds(21)); // first async fn terminate
+    Timer::async_time_out([&shared_var, &timer, &mtx](){
+        std::unique_lock<std::mutex> lock(mtx);
+        shared_var = 1;
+        std::cout << "Second block executed in: " << timer.elapsed() << " ms. ";
+    }, 20);
+
+
+    Timer::sleep(21);
     assert(shared_var == 1);
-    std::this_thread::sleep_for(std::chrono::milliseconds(21)); // second async fn terminate
-    assert(shared_var == 2);
     std::cout << "Mutex callback execution test passed." << std::endl;
 }
 
@@ -113,7 +120,7 @@ void test_mtx_on_timer_reaches() {
     std::cout << "first: " << time_to_execute_first_block << "  second: " << time_to_execute_second_block << "\t";
     assert(time_to_execute_first_block < time_to_execute_second_block - 100);
 
-    std::cout << "On timer used with mutex test passed." << std::endl;
+    std::cout << "On timer reaches used with mutex test passed." << std::endl;
 }
 
 
