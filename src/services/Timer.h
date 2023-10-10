@@ -29,6 +29,21 @@ public:
         return static_cast<double>(end - start) * 0.001; // Convert to milliseconds
     }
 
+    /*
+     *
+     * This function do not mutex variables that be passed inside block
+     * Make sure in use to not commit race condition
+     *
+     * # Example
+     *
+     *   timer;
+     *   std::mutex mtx;
+     *
+     *   timer.on_timer_reaches(20, [&mtx, &timer]() {
+     *      std::lock_guard<std::mutex> lock(mtx);
+     *      Timer::sleep(100);
+     *   });
+     * */
     void on_timer_reaches(double milliseconds, std::function<void ()> callback) {
         std::thread([this,milliseconds, callback]() {
             loop {
@@ -54,8 +69,10 @@ public:
             callback();
         }).detach();
     }
-    static void sleep(double milliseconds){
+
+    static bool sleep(double milliseconds){
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long  long >(milliseconds)));
+        return true;
     }
 
 

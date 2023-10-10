@@ -89,6 +89,34 @@ void test_on_timer_reaches() {
     std::cout << "On timer reaches test passed." << std::endl;
 }
 
+
+void test_mtx_on_timer_reaches() {
+    double time_to_execute_first_block = 0;
+    double time_to_execute_second_block = 0;
+    Timer timer;
+    std::mutex mtx;
+
+    timer.on_timer_reaches(19, [&mtx, &timer, &time_to_execute_first_block]() {
+        std::lock_guard<std::mutex> lock(mtx);
+        Timer::sleep(100);
+        time_to_execute_first_block = timer.elapsed();
+    });
+
+    // This second block is blocked by mutex, and it runs after the other unlock it
+    timer.on_timer_reaches(20, [&mtx, &timer, &time_to_execute_second_block]() {
+        std::lock_guard<std::mutex> lock(mtx);
+        Timer::sleep(100);
+        time_to_execute_second_block = timer.elapsed();
+    });
+
+    Timer::sleep(220); // timer reached to both blocks
+    std::cout << "first: " << time_to_execute_first_block << "  second: " << time_to_execute_second_block << "\t";
+    assert(time_to_execute_first_block < time_to_execute_second_block - 100);
+
+    std::cout << "On timer used with mutex test passed." << std::endl;
+}
+
+
 int main() {
     test_elapsed_time();
     test_reset();
@@ -97,5 +125,6 @@ int main() {
     test_mtx_on_async_time_out();
     test_sleep_timer();
     test_on_timer_reaches();
+    test_mtx_on_timer_reaches();
     return 0;
 }
