@@ -1,4 +1,11 @@
 #include "iostream"
+#include "assets/animations.h"
+#include "assets/menu.h"
+#include "Characters/EnemyMirror.h"
+#include "Characters/EnemyRandom.h"
+#include "Characters/Player.h"
+#include "Characters/Character.h"
+
 //#include "assets/menu.h"
 //
 //void start_menu() {

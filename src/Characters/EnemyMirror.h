@@ -9,6 +9,10 @@
 
 class EnemyMirror: public Character{
 public:
+    EnemyMirror(Coord coord) : Character(coord) {
+    }
+    ~EnemyMirror() = default;
+
     void mirroring(int dx_player_move, int dy_player_move) {
         move(dx_player_move,dy_player_move);
     }

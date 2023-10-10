@@ -10,10 +10,7 @@
 
 class EnemyRandom: public Character{
 public:
-    EnemyRandom(int x, int y){
-        coordinate = Coord {
-                x,y
-        };
+    EnemyRandom(Coord coord) : Character(coord) {
     };
     ~EnemyRandom() = default;
 
