@@ -4,6 +4,7 @@
 
 #ifndef BOMBEDCORE_TIMER_H
 #define BOMBEDCORE_TIMER_H
+#define loop while(true)
 
 #include "functional"
 #include "thread"
@@ -28,6 +29,17 @@ public:
         return static_cast<double>(end - start) * 0.001; // Convert to milliseconds
     }
 
+    void on_timer_reaches(double milliseconds, std::function<void ()> callback) {
+        std::thread([this,milliseconds, callback]() {
+            loop {
+               if (this->elapsed() >= milliseconds) {
+                   callback();
+                   break;
+               }
+            }
+        }).detach();
+    }
+
     static void on_time_out(std::function<void()> callback, double milliseconds) {
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long long>(milliseconds)));
         callback();
@@ -45,6 +57,7 @@ public:
     static void sleep(double milliseconds){
         std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long  long >(milliseconds)));
     }
+
 
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> start_timepoint;

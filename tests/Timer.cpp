@@ -7,18 +7,18 @@
 
 void test_elapsed_time() {
     Timer timer;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     double elapsed = timer.elapsed();
-    assert(elapsed >= 100 && elapsed < 110);
+    assert(elapsed >= 10 && elapsed < 11);
     std::cout << "Elapsed time test passed." << std::endl;
 }
 
 void test_reset() {
     Timer timer;
-    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+    std::this_thread::sleep_for(std::chrono::milliseconds(10));
     timer.reset();
     double elapsed = timer.elapsed();
-    assert(elapsed < 10);
+    assert(elapsed < 1);
     std::cout << "Reset test passed." << std::endl;
 }
 
@@ -40,10 +40,10 @@ void test_non_blocking_execute_callback(){
     int shared_variable;
     Timer::async_time_out([&shared_variable]() {
         shared_variable = 1;
-    }, 200);
+    }, 20);
 
     shared_variable = 0;
-    std::this_thread::sleep_for(std::chrono::milliseconds(210)); // the timer need some time to execute fn
+    std::this_thread::sleep_for(std::chrono::milliseconds(21)); // the timer need some time to execute fn
 
     assert(shared_variable == 1);
     std::cout << "Non blocking callback execution test passed." << std::endl;
@@ -73,6 +73,22 @@ void test_sleep_timer(){
     std::cout << "Sleep test passed in: " << elapsed << " ms." << std::endl;
 }
 
+void test_on_timer_reaches() {
+    int control_var = 0;
+    Timer timer;
+    timer.on_timer_reaches(20,[&timer, &control_var](){
+        double elapsed = timer.elapsed();
+        control_var = 1;
+        std::cout << "On timer reaches was executed in : " << elapsed << " ms on timer." << std::endl;
+    });
+    Timer::sleep(5); // The timer is not reached yet
+    assert(control_var == 0);
+    Timer::sleep(15); // The timer already reaches 20 ms
+    assert(control_var == 1);
+
+    std::cout << "On timer reaches test passed." << std::endl;
+}
+
 int main() {
     test_elapsed_time();
     test_reset();
@@ -80,5 +96,6 @@ int main() {
     test_non_blocking_execute_callback();
     test_mtx_on_async_time_out();
     test_sleep_timer();
+    test_on_timer_reaches();
     return 0;
 }
