@@ -65,11 +65,20 @@ void test_mtx_on_async_time_out(){
     std::cout << "Mutex callback execution test passed." << std::endl;
 }
 
+void test_sleep_timer(){
+    Timer timer; // init a timer
+    Timer::sleep(20);
+    double elapsed = timer.elapsed();
+    assert(elapsed >= 20 && elapsed < 21);
+    std::cout << "Sleep test passed in: " << elapsed << " ms." << std::endl;
+}
+
 int main() {
     test_elapsed_time();
     test_reset();
     test_callback_execution();
     test_non_blocking_execute_callback();
     test_mtx_on_async_time_out();
+    test_sleep_timer();
     return 0;
 }

@@ -42,6 +42,9 @@ public:
             callback();
         }).detach();
     }
+    static void sleep(double milliseconds){
+        std::this_thread::sleep_for(std::chrono::milliseconds(static_cast<long  long >(milliseconds)));
+    }
 
 private:
     std::chrono::time_point<std::chrono::high_resolution_clock> start_timepoint;
