@@ -1,6 +1,6 @@
 #include <iostream>
 #include "animations.h"
-#include "../services/console_helpers.h"
+#include "../services/console.h"
 
 namespace menu {
 
