@@ -1,7 +1,8 @@
 #ifndef animations
 #define animations
 #include <cstdlib>
-#include "../services/console_helpers.h"
+#include "../services/console.h"
+#include "../services/Timer.h"
 
 namespace animations {
   void animation_rules() {
@@ -33,7 +34,7 @@ namespace animations {
 
     for (int i = 0; i < 22; i++) {
       std::cout << animatedRule[i] << std::endl;
-      usleep(100000);
+      Timer::sleep(100000);
     }
     std::cout << std::endl << std::endl;
     pause_console();
@@ -54,7 +55,7 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_win[i] << std::endl;
-      usleep(300000);
+      Timer::sleep(300000);
     }
 
     std::cout << std::endl << std::endl;
@@ -78,7 +79,7 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_lose[i] << std::endl;
-      usleep(200000);
+      Timer::sleep(200000);
     }
 
     std::cout << std::endl << std::endl;
