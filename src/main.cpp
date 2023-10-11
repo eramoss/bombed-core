@@ -5,6 +5,7 @@
 #include "Characters/EnemyRandom.h"
 #include "Characters/Player.h"
 #include "Characters/Character.h"
+#include "Map.h"
 
 //#include "assets/menu.h"
 //
@@ -35,7 +36,8 @@
 //}
 //
 int main() {
-//    start_menu();
-   std::cout <<"";
+    MapFromFile map("/home/eramoss/map");
+    std::cout << "Loaded Map:" << std::endl;
+    map.print();
    return 0;
 }
