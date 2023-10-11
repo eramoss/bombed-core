@@ -15,9 +15,9 @@ private:
 
 public:
     Matrix(int numRows, int numCols) : rows(numRows), cols(numCols) {
-        data = new double*[rows];
+        data = new T*[rows];
         for (int i = 0; i < rows; i++) {
-            data[i] = new double[cols];
+            data[i] = new T[cols];
         }
     }
     static Matrix<T>* zero(int numRows, int numCols) {
