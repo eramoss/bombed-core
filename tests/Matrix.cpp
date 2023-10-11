@@ -27,7 +27,7 @@ TEST(MatrixTest, OutOfRange) {
 Matrix<double> mat(3, 3);
 ASSERT_NO_THROW(mat.set(2, 2, 1.0));  // Should not throw
 ASSERT_NO_THROW(mat.get(2, 2));        // Should not throw
-ASSERT_THROW(mat.set(4, 0, 1.0), std::runtime_error);
+ASSERT_THROW(mat.set(3, 0, 1.0), std::runtime_error);
 ASSERT_THROW(mat.get(0, 3), std::runtime_error);
 }
 
@@ -41,6 +41,36 @@ mat.set(1, 1, 4.0);
 mat.print();
 std::string output = testing::internal::GetCapturedStdout();
 ASSERT_EQ(output, "1 2 \n3 4 \n");
+}
+
+TEST(MatrixTest, ForEach) {
+    Matrix<double> mat(3,3);
+    int control_var = 0;
+    mat.for_each([&control_var](double elem){
+        control_var++;
+    });
+
+    ASSERT_EQ(control_var, 9);
+}
+
+TEST(MatrixTest, ForEachAttemptChangeElem) {
+    auto matrix = Matrix<double>::zero(3,3);
+    matrix->for_each([](double elem){
+        elem = 1;
+    });
+    matrix->for_each([](double elem){
+        ASSERT_EQ(elem, 0);
+    });
+}
+
+TEST(MatrixTest, MapChangingElements) {
+    auto matrix = Matrix<double>::zero(3,3);
+    matrix->map([](double &elem){
+        elem = 1;
+    });
+    matrix->map([](double &elem){
+        ASSERT_EQ(elem, 1);
+    });
 }
 
 int main(int argc, char **argv) {

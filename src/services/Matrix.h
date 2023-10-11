@@ -4,8 +4,7 @@
 
 #ifndef BOMBEDCORE_MATRIX_H
 #define BOMBEDCORE_MATRIX_H
-
-
+#include <type_traits>
 #include <iostream>
 
 template<class T> class Matrix {
@@ -20,6 +19,16 @@ public:
         for (int i = 0; i < rows; i++) {
             data[i] = new double[cols];
         }
+    }
+    static Matrix<T>* zero(int numRows, int numCols) {
+        static_assert(std::is_arithmetic<T>::value, "T must be an arithmetic type");
+
+        auto matrix = new Matrix<T>(numRows, numCols);
+        matrix->map([](T &elem){
+            elem = 0;
+        });
+
+        return matrix;
     }
 
     ~Matrix() {
@@ -59,6 +68,22 @@ public:
                 std::cout << data[i][j] << ' ';
             }
             std::cout << std::endl;
+        }
+    }
+
+    void map(std::function<void(T & elem)> fn){
+        for (int i = 0; i< rows; i++){
+            for (int j = 0; j < cols; j++) {
+                fn(data[i][j]);
+            }
+        }
+    }
+
+    void for_each(std::function<void(T elem)> fn){
+        for (int i = 0; i< rows; i++){
+            for (int j = 0; j < cols; j++) {
+                fn(data[i][j]);
+            }
         }
     }
 };
