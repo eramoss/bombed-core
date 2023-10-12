@@ -43,12 +43,12 @@ public:
     void print() { // mostrar o mapa
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
-                std::cout << map[i][j] << ' ';
+                std::cout << map[i][j];
             }
             std::cout << std::endl;
         }
     }
-private:
+
     int height;
     int width;
     std::string **map;
