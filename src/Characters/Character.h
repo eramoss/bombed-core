@@ -27,6 +27,7 @@ public:
     }
     void kill(){
         is_defeated = true;
+        coordinate = Coord {-1,-1};
     }
 protected:
     Coord coordinate{};

@@ -29,6 +29,7 @@
 //}
 //
 int main() {
+    hide_cursor();
     Game game;
     game.run();
     return 0;
