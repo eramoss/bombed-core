@@ -8,13 +8,20 @@ struct Coord{
     int X;
     int Y;
 
-    bool operator==(Coord rhs){
+    bool operator==(Coord rhs) const{
         return this->X == rhs.X && this->Y == rhs.Y;
     };
 
-    bool operator!=(Coord rhs){
+    bool operator!=(Coord rhs) const{
         return this->X != rhs.X && this->Y != rhs.Y;
     };
+
+    Coord operator+(Coord rhs) const {
+        return Coord {
+                this->X + rhs.X,
+                this->Y + rhs.Y,
+        };
+    }
 };
 
 #endif //BOMBEDCORE_COORD_H
