@@ -18,7 +18,6 @@
 #include "Map.h"
 #include <iomanip>
 
-
 class Game {
 public:
     Game();
@@ -53,7 +52,9 @@ private:
 
     void animateBomb(const std::string &sprite);
 
-    static void killCharacterInBombRadius(Character &character, Bomb &bomb);
+    void killCharacterInBombRadius(Character &character, Bomb &bomb);
+
+    bool hasWall(int x, int y) const;
 };
 
 
@@ -84,7 +85,7 @@ void Game::run() {
 
 bool Game::characterCanMove(Character &character, int dx, int dy) {
     Coord move = character.get_coord() + Coord{dx, dy};
-    if (move.X > map.width -1 || move.Y > map.height -1 || move.X < 0 || move.Y < 0) return false;
+    if (move.X > map.width - 1 || move.Y > map.height - 1 || move.X < 0 || move.Y < 0) return false;
     if (character.defeated()) return false;
 
     if (move == enemyR.get_coord()) return false;
@@ -221,24 +222,46 @@ void Game::animateBomb(const std::string &sprite) {
     Bomb &bomb = player.get_bomb();
     int x = bomb.get_coord().X;
     int y = bomb.get_coord().Y;
+    static bool stop = false;
+    static int directionXToStop = 2;
+    static int directionYToStop = 2;
+    auto &Map = map.map;
+    const int radius = bomb.get_blast_radius();
 
-    const auto &Map = map.map;
+    auto updateMap = [&](int dx, int dy) {
+        for (int i = 0; i <= radius; i++) {
+            if (stop && directionXToStop == dx && directionYToStop == dy) break;
+            int new_x = x + dx * i;
+            int new_y = y + dy * i;
 
-    if (Map[y + bomb.get_blast_radius()][x] != strong_wall_symbol)
-        Map[y + bomb.get_blast_radius()][x] = sprite;
+            if (new_x < 0 || new_x >= map.width || new_y < 0 || new_y >= map.height)
+                continue;
 
-    if (Map[y - bomb.get_blast_radius()][x] != strong_wall_symbol)
-        Map[y - bomb.get_blast_radius()][x] = sprite;
+            if (Map[new_y][new_x] == strong_wall_symbol)
+                break;
 
-    if (Map[y][x - bomb.get_blast_radius()] != strong_wall_symbol)
-        Map[y][x - bomb.get_blast_radius()] = sprite;
+            if (Map[new_y][new_x] == weak_wall_symbol) {
+                Map[new_y][new_x] = explosion;
+                Map[new_y][new_x] = empty_symbol;
+                directionXToStop = dx;
+                directionYToStop = dy;
+                stop = true;
+                break;
+            }
+            Map[new_y][new_x] = sprite;
 
-    if (Map[y][x + bomb.get_blast_radius()] != strong_wall_symbol)
-        Map[y][x + bomb.get_blast_radius()] = sprite;
+        }
+    };
+
+    updateMap(1, 0);  // Right
+    updateMap(-1, 0); // Left
+    updateMap(0, -1); // Up
+    updateMap(0, 1);  // Down
 
     if (Map[y][x] != strong_wall_symbol)
         Map[y][x] = sprite;
 }
+
 
 void Game::killCharacterInBombRadius(Character &character, Bomb &bomb) {
     Coord bombCoord = bomb.get_coord();
@@ -251,14 +274,32 @@ void Game::killCharacterInBombRadius(Character &character, Bomb &bomb) {
 
     int blastRadius = bomb.get_blast_radius();
 
-    // Check if the character is within the blast radius of the bomb
-    if (characterX >= bombX - blastRadius &&
-        characterX <= bombX + blastRadius &&
-        characterY >= bombY - blastRadius &&
-        characterY <= bombY + blastRadius) {
-        // Character is within the blast radius, so kill them
-        character.kill();
+    int dx = characterX - bombX;
+    int dy = characterY - bombY;
+
+    int distance = abs(dx) + abs(dy);
+
+    if (distance <= blastRadius) {
+        bool hasLineOfSight = true;
+
+        for (int step = 0; step < distance; step++) {
+            int x = bombX + step * dx / distance;
+            int y = bombY + step * dy / distance;
+
+            if (hasWall(x, y)) {
+                hasLineOfSight = false;
+                break;
+            }
+        }
+
+        if (hasLineOfSight && (characterX == bombX || characterY == bombY)) {
+            character.kill();
+        }
     }
+}
+
+bool Game::hasWall(int x, int y) const {
+    return map.map[y][x] != empty_symbol;
 }
 
 
