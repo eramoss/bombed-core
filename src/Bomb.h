@@ -15,31 +15,25 @@ class Bomb {
 public:
     const char* sprite_animations[AMOUNT_OF_SPRITES] = { explosion, great_explosion, greater_explosion, empty_symbol };
 
-    Bomb()=default;
+    Bomb(int blastRadius = 1) : active(false), blastRadius(blastRadius) {
+    }
     ~Bomb() = default;
-    void increase_tick() {
-        if (ticks_to_explode <= MAX_TICKS_TO_EXPLODE){
-            ticks_to_explode++;
-        }
-    }
-    bool enabled_to_explode(){
-        return ticks_to_explode == MAX_TICKS_TO_EXPLODE;
-    }
-    bool explode(){
-        if (enabled_to_explode()){
-            ticks_to_explode = 0;
-            return enabled_to_explode();
-        }
-        return false;
-    }
 
     void activate(int x, int y) {
         coordinate.X = x;
         coordinate.Y = y;
-        is_active = true;
+        active = true;
     }
-    bool active(){
-        return is_active;
+    bool is_active() const{
+        return active;
+    }
+
+    void inactivate(){
+        active = false;
+    }
+
+    int get_blast_radius() const {
+        return blastRadius;
     }
 
     void set_coord(Coord new_coord){
@@ -50,9 +44,9 @@ public:
         return coordinate;
     }
 private:
-    Coord coordinate;
-    bool is_active=false;
-    int ticks_to_explode;
+    Coord coordinate = Coord {-1,-1};
+    bool active=false;
+    int blastRadius;
 };
 
 

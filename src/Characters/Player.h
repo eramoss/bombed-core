@@ -10,18 +10,18 @@
 
 class Player: public Character {
 public:
-    explicit Player(Coord coord) : Character(coord) {
+    explicit Player(Coord coord) : Character(coord), bomb() {
     };
     ~Player() = default;
 
     bool put_bomb(){
-        if(bomb.active()){
+        if(bomb.is_active()){
             return false;
         }
         bomb.activate(coordinate.X, coordinate.Y);
         return true;
     }
-    Bomb get_bomb(){
+    Bomb & get_bomb() {
         return bomb;
     }
 private:
