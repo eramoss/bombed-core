@@ -54,7 +54,7 @@ private:
         Coord move = character.get_coord() + Coord{dx, dy};
         if (move == enemyR.get_coord()) return false;
         if (move == enemyM.get_coord()) return false;
-        if (move == player.get_bomb().get_coord() && character.get_coord() != player.get_coord()) return false;
+        if (move == player.get_bomb().get_coord()) return false;
         if (map.map[move.Y][move.X] == empty_symbol) {
             return true;
         }
@@ -147,8 +147,9 @@ private:
     }
 
     void check_bomb_explode() {
-        if (player.get_bomb().active()) {
-            player.get_bomb().inactive();
+        Bomb& bomb = player.get_bomb();
+        if (bomb.is_active()) {
+            bomb.inactivate();
             Timer::async_time_out([&]() {
                 explode_bomb();
             }, 3000);
@@ -156,35 +157,49 @@ private:
     }
 
     void explode_bomb() {
-        for (auto &sprite_animation: player.get_bomb().sprite_animations) {
+        Bomb& bomb = player.get_bomb();
+        for (const std::string& sprite : bomb.sprite_animations) {
             clear_console(true);
-            animate_bomb(sprite_animation);
+            animate_bomb(sprite);
             display_map();
             Timer::sleep(75);
         }
-        for (auto &sprite_animation: player.get_bomb().sprite_animations) {
+
+        for (const std::string& sprite : bomb.sprite_animations) {
             clear_console(true);
-            animate_bomb(sprite_animation);
+            animate_bomb(sprite);
             display_map();
             Timer::sleep(75);
         }
-        player.get_bomb().set_coord(Coord{-1, -1});
+
+        bomb.set_coord(Coord{-1, -1});
         clear_console(true);
         display_map();
     }
 
-    void animate_bomb(const std::string &sprite) {
-        if (map.map[player.get_bomb().get_coord().Y + 1][player.get_bomb().get_coord().X] != strong_wall_symbol)
-            map.map[player.get_bomb().get_coord().Y + 1][player.get_bomb().get_coord().X] = sprite;
-        if (map.map[player.get_bomb().get_coord().Y - 1][player.get_bomb().get_coord().X] != strong_wall_symbol)
-            map.map[player.get_bomb().get_coord().Y - 1][player.get_bomb().get_coord().X] = sprite;
-        if (map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X - 1] != strong_wall_symbol)
-            map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X - 1] = sprite;
-        if (map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X + 1] != strong_wall_symbol)
-            map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X + 1] = sprite;
-        if (map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X] != strong_wall_symbol)
-            map.map[player.get_bomb().get_coord().Y][player.get_bomb().get_coord().X] = sprite;
+    void animate_bomb(const std::string& sprite) {
+        Bomb& bomb = player.get_bomb();
+        int x = bomb.get_coord().X;
+        int y = bomb.get_coord().Y;
+
+        const auto& Map = map.map;
+
+        if (Map[y + 1][x] != strong_wall_symbol)
+            Map[y + 1][x] = sprite;
+
+        if (Map[y - 1][x] != strong_wall_symbol)
+            Map[y - 1][x] = sprite;
+
+        if (Map[y][x - 1] != strong_wall_symbol)
+            Map[y][x - 1] = sprite;
+
+        if (Map[y][x + 1] != strong_wall_symbol)
+            Map[y][x + 1] = sprite;
+
+        if (Map[y][x] != strong_wall_symbol)
+            Map[y][x] = sprite;
     }
+
 };
 
 #ifdef WIN_32

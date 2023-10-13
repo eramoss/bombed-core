@@ -17,33 +17,18 @@ public:
 
     Bomb()=default;
     ~Bomb() = default;
-    void increase_tick() {
-        if (ticks_to_explode <= MAX_TICKS_TO_EXPLODE){
-            ticks_to_explode++;
-        }
-    }
-    bool enabled_to_explode(){
-        return ticks_to_explode == MAX_TICKS_TO_EXPLODE;
-    }
-    bool explode(){
-        if (enabled_to_explode()){
-            ticks_to_explode = 0;
-            return enabled_to_explode();
-        }
-        return false;
-    }
 
     void activate(int x, int y) {
         coordinate.X = x;
         coordinate.Y = y;
-        is_active = true;
+        active = true;
     }
-    bool active(){
-        return is_active;
+    bool is_active(){
+        return active;
     }
 
-    void inactive(){
-        is_active = false;
+    void inactivate(){
+        active = false;
     }
 
     void set_coord(Coord new_coord){
@@ -55,8 +40,7 @@ public:
     }
 private:
     Coord coordinate = Coord {-1,-1};
-    bool is_active=false;
-    int ticks_to_explode;
+    bool active=false;
 };
 
 

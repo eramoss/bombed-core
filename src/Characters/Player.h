@@ -15,7 +15,7 @@ public:
     ~Player() = default;
 
     bool put_bomb(){
-        if(bomb.active()){
+        if(bomb.is_active()){
             return false;
         }
         bomb.activate(coordinate.X, coordinate.Y);
