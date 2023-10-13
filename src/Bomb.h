@@ -42,6 +42,10 @@ public:
         return is_active;
     }
 
+    void inactive(){
+        is_active = false;
+    }
+
     void set_coord(Coord new_coord){
         coordinate = new_coord;
     }
@@ -50,7 +54,7 @@ public:
         return coordinate;
     }
 private:
-    Coord coordinate;
+    Coord coordinate = Coord {-1,-1};
     bool is_active=false;
     int ticks_to_explode;
 };
