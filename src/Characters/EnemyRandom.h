@@ -40,6 +40,10 @@ public:
             dx,dy
         };
     }
+    void move_random() {
+        Coord move = generate_random_move();
+        this->move(move.X,move.Y);
+    }
 };
 
 

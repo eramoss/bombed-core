@@ -19,7 +19,7 @@ public:
         coordinate.Y = newY;
     };
 
-    Coord get_coord(){
+    Coord get_coord() const {
         return coordinate;
     };
     [[nodiscard]] bool defeated() const{

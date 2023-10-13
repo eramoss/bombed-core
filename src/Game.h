@@ -18,14 +18,15 @@
 
 class Game {
 public:
-    Game() : player(Coord{1, 1}), map("../map.txt"), game_over(false) {}
+    Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
+             map("../map.txt"), game_over(false) {}
 
     void run() {
-//        std::thread([&]() {
-//            while (!game_over) {
-//                display_timer();
-//            }
-//        }).detach();
+        std::thread([&]() {
+            while (!game_over) {
+                display_timer();
+            }
+        }).detach();
         translate_map();
         char input;
         while (!game_over) {
@@ -34,17 +35,24 @@ public:
 
             input = get_input_without_enter();
             processInput(input);
+            check_player_death();
         }
+        clear_console(true);
+        display_map();
     }
 
 private:
     Timer timer;
     Player player;
+    EnemyMirror enemyM;
+    EnemyRandom enemyR;
     MapFromFile map;
     bool game_over;
 
-    bool character_can_move(Character & character, int dx, int dy) const{
-        Coord move = character.get_coord() + Coord{dx,dy};
+    bool character_can_move(Character &character, int dx, int dy) const {
+        Coord move = character.get_coord() + Coord{dx, dy};
+        if (move == enemyR.get_coord()) return false;
+        if (move == enemyM.get_coord()) return false;
         if (map.map[move.Y][move.X] == empty_symbol) {
             return true;
         }
@@ -56,7 +64,11 @@ private:
     void display_map() {
         for (int i = 0; i < map.height; i++) {
             for (int j = 0; j < map.width; j++) {
-                if (player.get_coord() == Coord{j, i}) {
+                if (enemyR.get_coord() == Coord{j, i}) {
+                    std::cout << enemy_symbol;
+                } else if (enemyM.get_coord() == Coord{j, i}) {
+                    std::cout << enemy_symbol;
+                } else if (player.get_coord() == Coord{j, i}) {
                     std::cout << player_symbol;
                 } else {
                     std::cout << map.map[i][j];
@@ -66,24 +78,20 @@ private:
         }
     }
 
-
+    Coord random_move;
     void processInput(char input) {
         switch (input) {
             case 'w':
-                if (character_can_move(player,0, -1))
-                player.move(0, -1);
+                move(0,-1);
                 break;
             case 's':
-                if (character_can_move(player,0, 1))
-                player.move(0, 1);
+                move(0,1);
                 break;
             case 'a':
-                if (character_can_move(player,-1, 0))
-                player.move(-1, 0);
+                move(-1,0);
                 break;
             case 'd':
-                if (character_can_move(player,1, 0))
-                player.move(1, 0);
+                move(1,0);
                 break;
             case 'q':
                 game_over = true;
@@ -92,7 +100,25 @@ private:
                 break;
         }
     }
-    void translate_map() const{
+
+    void move(int dx, int dy) {
+        if (character_can_move(player, dx, dy)) {
+            player.move(dx, dy);
+        }
+
+        if (character_can_move(enemyM, dx * -1, dy * -1)) {
+            enemyM.move(dx * -1, dy * -1);
+        }
+
+        random_move = enemyR.generate_random_move();
+        while (!character_can_move(enemyR, random_move.X, random_move.Y)) {
+            random_move = enemyR.generate_random_move();
+        }
+        enemyR.move(random_move.X, random_move.Y);
+    }
+
+
+    void translate_map() const {
         for (int i = 0; i < map.height; i++) {
             for (int j = 0; j < map.width; j++) {
                 if (map.map[i][j] == "#") {
@@ -103,6 +129,12 @@ private:
                     map.map[i][j] = empty_symbol;
                 }
             }
+        }
+    }
+
+    void check_player_death() {
+        if(player.get_coord() == enemyR.get_coord() || player.get_coord() == enemyM.get_coord()){
+            game_over = true;
         }
     }
 
@@ -130,6 +162,7 @@ void Game::display_timer() {
     std::cout << result << '\r';
 }
 #else
+
 void Game::display_timer() {
     std::string command = "printf \"time: \"";
     std::ostringstream ss;
