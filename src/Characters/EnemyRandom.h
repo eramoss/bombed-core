@@ -15,6 +15,7 @@ public:
     ~EnemyRandom() = default;
 
     Coord generate_random_move(){
+        if (defeated()) return Coord{0,0};
         int dx, dy;
         int random_direction = rand() % 4; // Generate a random number from 0 to 3
 

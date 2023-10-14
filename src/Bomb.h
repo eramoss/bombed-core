@@ -15,7 +15,7 @@ class Bomb {
 public:
     const char* sprite_animations[AMOUNT_OF_SPRITES] = { explosion, great_explosion, greater_explosion, empty_symbol };
 
-    Bomb(int blastRadius = 2) : active(false), blastRadius(blastRadius) {
+    Bomb(int blastRadius =2) : active(false), blastRadius(blastRadius) {
     }
     ~Bomb() = default;
 

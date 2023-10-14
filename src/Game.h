@@ -31,6 +31,7 @@ private:
     EnemyRandom enemyR;
     MapFromFile map;
     bool game_over;
+    bool stop_animation = false;
 
     void displayTimer();
 
@@ -72,7 +73,6 @@ void Game::run() {
     while (!game_over) {
         clear_console(true);
         displayMap();
-
         input = get_input_without_enter();
         processInput(input);
         checkBombExplode();
@@ -85,7 +85,7 @@ void Game::run() {
 
 bool Game::characterCanMove(Character &character, int dx, int dy) {
     Coord move = character.get_coord() + Coord{dx, dy};
-    if (move.X > map.width - 1 || move.Y > map.height - 1 || move.X < 0 || move.Y < 0) return false;
+    if (move.X > map.width - 1 || move.Y > map.height - 1 || move.X <= 0 || move.Y <= 0) return false;
     if (character.defeated()) return false;
 
     if (move == enemyR.get_coord()) return false;
@@ -157,7 +157,7 @@ void Game::move(int dx, int dy) {
     }
 
     random_move = enemyR.generate_random_move();
-    while (!characterCanMove(enemyR, random_move.X, random_move.Y)) {
+    while (!characterCanMove(enemyR, random_move.X, random_move.Y) && !enemyR.defeated()) {
         random_move = enemyR.generate_random_move();
     }
     enemyR.move(random_move.X, random_move.Y);
@@ -185,12 +185,15 @@ void Game::checkPlayerDeath() {
 }
 
 void Game::checkBombExplode() {
+    static bool bomb_is_on_map = false;
     Bomb &bomb = player.get_bomb();
-    if (bomb.is_active()) {
-        bomb.inactivate();
+    if (bomb.is_active() && !bomb_is_on_map) {
+        bomb_is_on_map = true;
         Timer::async_time_out([&]() {
             explodeBomb();
-        }, 3000);
+            bomb_is_on_map = false;
+            bomb.inactivate();
+        }, 2000);
     }
 }
 
@@ -212,8 +215,8 @@ void Game::explodeBomb() {
         displayMap();
         Timer::sleep(75);
     }
-
-    bomb.set_coord(Coord{-1, -1});
+    stop_animation = false;
+    bomb.set_coord(Coord{0, 0});
     clear_console(true);
     displayMap();
 }
@@ -222,7 +225,6 @@ void Game::animateBomb(const std::string &sprite) {
     Bomb &bomb = player.get_bomb();
     int x = bomb.get_coord().X;
     int y = bomb.get_coord().Y;
-    static bool stop = false;
     static int directionXToStop = 2;
     static int directionYToStop = 2;
     auto &Map = map.map;
@@ -230,7 +232,8 @@ void Game::animateBomb(const std::string &sprite) {
 
     auto updateMap = [&](int dx, int dy) {
         for (int i = 0; i <= radius; i++) {
-            if (stop && directionXToStop == dx && directionYToStop == dy) break;
+            if (stop_animation && directionXToStop == dx && directionYToStop == dy) break;
+
             int new_x = x + dx * i;
             int new_y = y + dy * i;
 
@@ -245,7 +248,7 @@ void Game::animateBomb(const std::string &sprite) {
                 Map[new_y][new_x] = empty_symbol;
                 directionXToStop = dx;
                 directionYToStop = dy;
-                stop = true;
+                stop_animation = true;
                 break;
             }
             Map[new_y][new_x] = sprite;
