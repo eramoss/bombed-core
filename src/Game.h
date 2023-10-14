@@ -180,6 +180,9 @@ void Game::translateMap() const {
 
 void Game::checkPlayerDeath() {
     if (player.get_coord() == enemyR.get_coord() || player.get_coord() == enemyM.get_coord()) {
+        player.kill();
+    }
+    if (player.defeated()) {
         game_over = true;
     }
 }
