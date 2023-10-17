@@ -9,7 +9,7 @@
 
 void clear_console(bool is_to_print_map = false) {
   if (is_to_print_map) {
-    short int CX = 0, CY = 0;
+    short int CX = 0, CY = 1;
     COORD coord;
     coord.X = CX;
     coord.Y = CY;

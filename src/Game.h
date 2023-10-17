@@ -309,7 +309,7 @@ bool Game::hasWall(int x, int y) const {
 }
 
 
-#ifdef WIN_32
+#ifdef _WIN32
 void Game::displayTimer() {
     std::ostringstream ss;
     ss << "time: " << std::fixed << std::setprecision(2) << timer.elapsed() / 1000;
@@ -342,7 +342,7 @@ void Game::displayTimer() {
     system(command.c_str());
 }
 
-#endif // WIN_32
+#endif // _WIN32
 
 
 #endif //BOMBEDCORE_GAME_H
