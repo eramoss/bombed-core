@@ -63,11 +63,11 @@ Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
                map("../map.txt"), game_over(false) {}
 
 void Game::run() {
-    std::thread([&]() {
-        while (!game_over) {
-            displayTimer();
-        }
-    }).detach();
+//    std::thread([&]() {
+//        while (!game_over) {
+//            displayTimer();
+//        }
+//    }).detach();
     translateMap();
     char input;
     while (!game_over) {
