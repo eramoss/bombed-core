@@ -268,8 +268,6 @@ void Game::animateBomb(const std::string &sprite) {
     updateMap(0, -1); // Up
     updateMap(0, 1);  // Down
 
-    if (Map[y][x] != strong_wall_symbol)
-        Map[y][x] = sprite;
 }
 
 
