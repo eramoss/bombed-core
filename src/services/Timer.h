@@ -17,6 +17,12 @@ public:
     Timer() : start_timepoint(std::chrono::high_resolution_clock::now()) {}
     ~Timer() = default;
 
+    static Timer init_from(double ms) {
+        Timer timer;
+        timer.start_timepoint = std::chrono::high_resolution_clock::now() - std::chrono::milliseconds(static_cast<int>(ms));
+        return timer;
+    }
+
     void reset() {
         start_timepoint = std::chrono::high_resolution_clock::now();
     }

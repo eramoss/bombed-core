@@ -47,7 +47,7 @@ public:
     void run();
 
 private:
-    Timer timer;
+    Timer timer = Timer::init_from(5000);
     Player player;
     EnemyMirror enemyM;
     EnemyRandom enemyR;
