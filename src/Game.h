@@ -43,11 +43,12 @@ public:
 class Game {
 public:
     Game();
+    Game(Coord player_coord, Coord enemyR_coord, Coord enemyM_coord, const std::string &filemap, double ms);
 
     void run();
 
 private:
-    Timer timer = Timer::init_from(5000);
+    Timer timer ;
     Player player;
     EnemyMirror enemyM;
     EnemyRandom enemyR;
@@ -83,7 +84,12 @@ private:
 
 
 Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
-               map("../map.txt"), game_over(false) {}
+               map("../map.txt"), game_over(false), timer() {}
+
+Game::Game(Coord player_coord, Coord enemyR_coord, Coord enemyM_coord, const std::string &filemap, double ms) : enemyR(enemyR_coord),
+enemyM(enemyM_coord), player(player_coord) , map(filemap), game_over(false){
+    timer = Timer::init_from(ms);
+}
 
 void Game::run() {
     std::thread([&]() {

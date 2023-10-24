@@ -30,7 +30,7 @@
 //
 int main() {
     hide_cursor();
-    Game game;
+    Game game = Game(Coord{5,5},Coord{6,6},Coord {1,1},"mape_saved.txt",5000);
     game.run();
     return 0;
 }
