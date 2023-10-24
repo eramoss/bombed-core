@@ -16,6 +16,7 @@
 #include "Characters/Player.h"
 #include "Characters/Character.h"
 #include "Map.h"
+#include "Save_game.h"
 #include <iomanip>
 
 class Game {
@@ -140,6 +141,9 @@ void Game::processInput(char input) {
             break;
         case 'q':
             game_over = true;
+            break;
+        case 'p':
+            newfilemap();
             break;
         default:
             break;

@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 
+
 class MapFromFile {
 public:
     MapFromFile(const std::string &filename) {
