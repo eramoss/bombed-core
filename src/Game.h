@@ -16,8 +16,29 @@
 #include "Characters/Player.h"
 #include "Characters/Character.h"
 #include "Map.h"
-#include "Save_game.h"
+#include "fstream"
 #include <iomanip>
+
+
+class Save {
+public:
+    static void save_game(const MapFromFile& map) {
+        std::ofstream new_map;
+        new_map.open ("mape_saved.txt");
+        for (int i = 0; i < map.height; i++) {
+            for (int j = 0; j < map.width; j++) {
+                if (map.map[i][j] != strong_wall_symbol && map.map[i][j] != weak_wall_symbol){
+                    new_map << " ";
+                } else {
+                    if (map.map[i][j] == weak_wall_symbol) new_map << "@";
+                    if (map.map[i][j] == strong_wall_symbol)new_map << "#";
+                }
+            }
+            new_map << "\n";
+        }
+        new_map.close ();
+    }
+};
 
 class Game {
 public:
@@ -33,6 +54,7 @@ private:
     MapFromFile map;
     bool game_over;
     bool stop_animation = false;
+    bool bomb_is_exploding = false;
 
     void displayTimer();
 
@@ -64,11 +86,11 @@ Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
                map("../map.txt"), game_over(false) {}
 
 void Game::run() {
-//    std::thread([&]() {
-//        while (!game_over) {
-//            displayTimer();
-//        }
-//    }).detach();
+    std::thread([&]() {
+        while (!game_over) {
+            displayTimer();
+        }
+    }).detach();
     translateMap();
     char input;
     while (!game_over) {
@@ -103,8 +125,7 @@ void Game::displayMap() {
     for (int i = 0; i < map.height; i++) {
         for (int j = 0; j < map.width; j++) {
             std::string symbol = map.map[i][j];
-            if (symbol == strong_wall_symbol || symbol == explosion || symbol == great_explosion ||
-                symbol == greater_explosion) {
+            if (symbol == strong_wall_symbol) {
                 std::cout << symbol;
             } else if ((enemyR.get_coord() == Coord{j, i} && !enemyR.defeated()) ||
                        (enemyM.get_coord() == Coord{j, i} && !enemyM.defeated())) {
@@ -113,7 +134,14 @@ void Game::displayMap() {
                 std::cout << bomb_character;
             } else if (player.get_coord() == Coord{j, i} && !player.defeated()) {
                 std::cout << player_symbol;
-            } else {
+            } else if (symbol == explosion || symbol == great_explosion ||symbol == greater_explosion){
+                if (bomb_is_exploding){
+                    std::cout << symbol;
+                } else {
+                    std::cout << empty_symbol;
+                }
+            }
+            else {
                 std::cout << symbol;
             }
         }
@@ -143,7 +171,7 @@ void Game::processInput(char input) {
             game_over = true;
             break;
         case 'p':
-            newfilemap();
+            Save::save_game(map);
             break;
         default:
             break;
@@ -212,23 +240,18 @@ void Game::explodeBomb() {
     for (const std::string &sprite: bomb.sprite_animations) {
         clear_console(true);
         animateBomb(sprite);
-        displayMap();
         Timer::sleep(75);
     }
 
-    for (const std::string &sprite: bomb.sprite_animations) {
-        clear_console(true);
-        animateBomb(sprite);
-        displayMap();
-        Timer::sleep(75);
-    }
     stop_animation = false;
     bomb.set_coord(Coord{0, 0});
     clear_console(true);
+    bomb_is_exploding = false;
     displayMap();
 }
 
 void Game::animateBomb(const std::string &sprite) {
+    bomb_is_exploding = true;
     Bomb &bomb = player.get_bomb();
     int x = bomb.get_coord().X;
     int y = bomb.get_coord().Y;
@@ -251,7 +274,7 @@ void Game::animateBomb(const std::string &sprite) {
                 break;
 
             if (Map[new_y][new_x] == weak_wall_symbol) {
-                Map[new_y][new_x] = explosion;
+                Map[new_y][new_x] = sprite;
                 Map[new_y][new_x] = empty_symbol;
                 directionXToStop = dx;
                 directionYToStop = dy;
@@ -259,7 +282,6 @@ void Game::animateBomb(const std::string &sprite) {
                 break;
             }
             Map[new_y][new_x] = sprite;
-
         }
     };
 
@@ -267,7 +289,8 @@ void Game::animateBomb(const std::string &sprite) {
     updateMap(-1, 0); // Left
     updateMap(0, -1); // Up
     updateMap(0, 1);  // Down
-
+    displayMap();
+    bomb_is_exploding = false;
 }
 
 
@@ -309,6 +332,8 @@ void Game::killCharacterInBombRadius(Character &character, Bomb &bomb) {
 bool Game::hasWall(int x, int y) const {
     return map.map[y][x] != empty_symbol;
 }
+
+
 
 
 #ifdef _WIN32
