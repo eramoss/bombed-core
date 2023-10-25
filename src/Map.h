@@ -1,6 +1,6 @@
 #include <fstream>
 #include <iostream>
-
+#include "saveGame.h"
 
 class MapFromFile {
 public:

@@ -44,7 +44,7 @@ public:
         return coordinate;
     }
 private:
-    Coord coordinate = Coord {-1,-1};
+    Coord coordinate = Coord {0,0};
     bool active=false;
     int blastRadius;
 };

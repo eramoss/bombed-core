@@ -18,7 +18,7 @@
 #include "Map.h"
 #include "fstream"
 #include <iomanip>
-
+#include "saveGame.h"
 
 class Save {
 public:
@@ -39,11 +39,11 @@ public:
         new_map.close ();
     }
 };
-
+static bool bomb_is_on_map = false;
 class Game {
 public:
     Game();
-    Game(Coord player_coord, Coord enemyR_coord, Coord enemyM_coord, const std::string &filemap, double ms);
+    Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom, const std::string &filemap, double ms);
 
     void run();
 
@@ -86,8 +86,8 @@ private:
 Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
                map("../map.txt"), game_over(false), timer() {}
 
-Game::Game(Coord player_coord, Coord enemyR_coord, Coord enemyM_coord, const std::string &filemap, double ms) : enemyR(enemyR_coord),
-enemyM(enemyM_coord), player(player_coord) , map(filemap), game_over(false){
+Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom, const std::string &filemap, double ms) : enemyR(enemyRandom.get_coord()),
+enemyM(enemyMirror.get_coord()), player(player1.get_coord()) , map(filemap), game_over(false){
     timer = Timer::init_from(ms);
 }
 
@@ -174,10 +174,23 @@ void Game::processInput(char input) {
             player.put_bomb();
             break;
         case 'q':
+            if (bomb_is_on_map) {
+                clear_console();
+                displayMap();
+                std::cout << "cannot quit while bomb is on map\n";
+                break;
+            }
             game_over = true;
             break;
         case 'p':
+            if (bomb_is_on_map) {
+                clear_console();
+                displayMap();
+                std::cout << "cannot save while bomb is on map\n";
+                break;
+            }
             Save::save_game(map);
+            save_positions(player,enemyM,enemyR,timer);
             break;
         default:
             break;
@@ -226,7 +239,7 @@ void Game::checkPlayerDeath() {
 }
 
 void Game::checkBombExplode() {
-    static bool bomb_is_on_map = false;
+
     Bomb &bomb = player.get_bomb();
     if (bomb.is_active() && !bomb_is_on_map) {
         bomb_is_on_map = true;

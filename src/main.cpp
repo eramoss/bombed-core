@@ -29,8 +29,36 @@
 //}
 //
 int main() {
-    hide_cursor();
-    Game game = Game(Coord{5,5},Coord{6,6},Coord {1,1},"mape_saved.txt",5000);
-    game.run();
+    int select;
+    Player player(Coord {1,1});
+    EnemyRandom enemyRandom(Coord{7,7});
+    EnemyMirror enemyMirror(Coord{5,5});
+    Timer timer;
+    while (true) {
+        clear_console();
+        std::cout << "\na:";
+        std::cin >> select;
+        switch (select) {
+            case 1: {
+                hide_cursor();
+                Game* game = new Game();
+                game->run();
+                break;
+            }
+            case 2: {
+                hide_cursor();
+                double ms_timer;
+                load_positions(player,enemyMirror,enemyRandom,player.get_bomb(),ms_timer);
+                Game *game = new Game(player,enemyMirror,enemyRandom,"mape_saved.txt",ms_timer);
+                game->run();
+                break;
+            }
+            case 3:
+                return 0;
+            default:
+                break;
+        }
+    }
+
     return 0;
 }
