@@ -197,7 +197,7 @@ void Game::processInput(char input) {
                 break;
             }
             Save::save_game(map);
-            save_positions(player,enemyM,enemyR,timer);
+            save_positions(player,enemyM,enemyR,power,timer);
             break;
         default:
             break;

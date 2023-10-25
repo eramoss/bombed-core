@@ -49,7 +49,7 @@ int main() {
             case 2: {
                 hide_cursor();
                 double ms_timer;
-                load_positions(player,enemyMirror,enemyRandom,player.get_bomb(),ms_timer);
+                load_positions(player,enemyMirror,enemyRandom,power,player.get_bomb(),ms_timer);
                 Game *game = new Game(player,enemyMirror,enemyRandom,power,"mape_saved.txt",ms_timer);
                 game->run();
                 break;
