@@ -19,6 +19,7 @@
 #include "fstream"
 #include <iomanip>
 #include "saveGame.h"
+#include "Power.h"
 
 class Save {
 public:
@@ -43,7 +44,7 @@ static bool bomb_is_on_map = false;
 class Game {
 public:
     Game();
-    Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom, const std::string &filemap, double ms);
+    Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms);
 
     void run();
 
@@ -56,6 +57,7 @@ private:
     bool game_over;
     bool stop_animation = false;
     bool bomb_is_exploding = false;
+    Power power;
 
     void displayTimer();
 
@@ -80,14 +82,16 @@ private:
     void killCharacterInBombRadius(Character &character, Bomb &bomb);
 
     bool hasWall(int x, int y) const;
+
+    void checkPlayerHasPower();
 };
 
 
-Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}),
+Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}), power(Coord{26,18}),
                map("../map.txt"), game_over(false), timer() {}
 
-Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom, const std::string &filemap, double ms) : enemyR(enemyRandom.get_coord()),
-enemyM(enemyMirror.get_coord()), player(player1.get_coord()) , map(filemap), game_over(false){
+Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms) : enemyR(enemyRandom.get_coord()),
+enemyM(enemyMirror.get_coord()), player(player1.get_coord()), power(power.coord) , map(filemap), game_over(false){
     timer = Timer::init_from(ms);
 }
 
@@ -105,6 +109,7 @@ void Game::run() {
         input = get_input_without_enter();
         processInput(input);
         checkBombExplode();
+        checkPlayerHasPower();
         checkPlayerDeath();
     }
     clear_console(true);
@@ -140,6 +145,8 @@ void Game::displayMap() {
                 std::cout << bomb_character;
             } else if (player.get_coord() == Coord{j, i} && !player.defeated()) {
                 std::cout << player_symbol;
+            }else if (power.coord == Coord {j,i}){
+                std::cout << "& ";
             } else if (symbol == explosion || symbol == great_explosion ||symbol == greater_explosion){
                 if (bomb_is_exploding){
                     std::cout << symbol;
@@ -350,6 +357,16 @@ void Game::killCharacterInBombRadius(Character &character, Bomb &bomb) {
 
 bool Game::hasWall(int x, int y) const {
     return map.map[y][x] != empty_symbol;
+}
+void Game::checkPlayerHasPower() {
+    if (player.get_coord() == power.coord) {
+        player.get_bomb().increase_blast();
+        power.coord = Coord {0,0};
+    }
+
+    Timer::async_time_out([&]() {
+        player.get_bomb().decrease_blast();
+    }, 10000);
 }
 
 

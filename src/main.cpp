@@ -34,6 +34,7 @@ int main() {
     EnemyRandom enemyRandom(Coord{7,7});
     EnemyMirror enemyMirror(Coord{5,5});
     Timer timer;
+    Power power(Coord{18,26});
     while (true) {
         clear_console();
         std::cout << "\na:";
@@ -49,7 +50,7 @@ int main() {
                 hide_cursor();
                 double ms_timer;
                 load_positions(player,enemyMirror,enemyRandom,player.get_bomb(),ms_timer);
-                Game *game = new Game(player,enemyMirror,enemyRandom,"mape_saved.txt",ms_timer);
+                Game *game = new Game(player,enemyMirror,enemyRandom,power,"mape_saved.txt",ms_timer);
                 game->run();
                 break;
             }

@@ -15,7 +15,7 @@ class Bomb {
 public:
     const char* sprite_animations[AMOUNT_OF_SPRITES] = { explosion, great_explosion, greater_explosion, empty_symbol };
 
-    Bomb(int blastRadius =2) : active(false), blastRadius(blastRadius) {
+    Bomb(int blastRadius =1) : active(false), blastRadius(blastRadius) {
     }
     ~Bomb() = default;
 
@@ -42,6 +42,13 @@ public:
 
     Coord get_coord(){
         return coordinate;
+    }
+
+    void increase_blast() {
+        blastRadius = 2;
+    }
+    void decrease_blast() {
+        blastRadius = 1;
     }
 private:
     Coord coordinate = Coord {0,0};
