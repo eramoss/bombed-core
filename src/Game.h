@@ -54,10 +54,12 @@ private:
     EnemyMirror enemyM;
     EnemyRandom enemyR;
     MapFromFile map;
-    bool game_over;
+    Power power;
+    bool game_over = false;
     bool stop_animation = false;
     bool bomb_is_exploding = false;
-    Power power;
+    bool win = false;
+
 
     void displayTimer();
 
@@ -81,17 +83,17 @@ private:
 
     void killCharacterInBombRadius(Character &character, Bomb &bomb);
 
-    bool hasWall(int x, int y) const;
+    [[nodiscard]] bool hasWall(int x, int y) const;
 
     void checkPlayerHasPower();
+    void checkPlayerWin();
 };
 
 
-Game::Game() : player(Coord{1, 1}), enemyR(Coord{9, 9}), enemyM(Coord{5, 5}), power(Coord{26,18}),
-               map("../map.txt"), game_over(false), timer() {}
+Game::Game() :timer(), player(Coord{1, 1}),  enemyM(Coord{5, 5}),enemyR(Coord{9, 9}),map("../map.txt"),power(Coord{26,18}){}
 
-Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms) : enemyR(enemyRandom.get_coord()),
-enemyM(enemyMirror.get_coord()), player(player1.get_coord()), power(power.coord) , map(filemap), game_over(false){
+Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms) :
+player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.get_coord()), map(filemap), power(power.coord){
     timer = Timer::init_from(ms);
 }
 
@@ -110,6 +112,7 @@ void Game::run() {
         processInput(input);
         checkBombExplode();
         checkPlayerHasPower();
+        checkPlayerWin();
         checkPlayerDeath();
     }
     clear_console(true);
@@ -366,9 +369,14 @@ void Game::checkPlayerHasPower() {
 
     Timer::async_time_out([&]() {
         player.get_bomb().decrease_blast();
-    }, 10000);
+    }, 20000);
 }
-
+void Game::checkPlayerWin() {
+    if (enemyR.defeated() && enemyM.defeated()) {
+        game_over = true;
+        win = true;
+    }
+}
 
 
 
