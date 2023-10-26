@@ -21,7 +21,7 @@ char c_bomb_character = char(64);
 char* bomb_character = &c_bomb_character;
 char c_enemy_symbol = char(36);
 char* enemy_symbol = &c_enemy_symbol;
-char* c_weak_wall_symbol = char(177);
+char c_weak_wall_symbol = char(177);
 char* weak_wall_symbol = &c_weak_wall_symbol;
 
 #else
