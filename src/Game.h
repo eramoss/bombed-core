@@ -116,8 +116,7 @@ void Game::run() {
         checkPlayerWin();
         checkPlayerDeath();
     }
-    clear_console(true);
-    displayMap();
+    win? animation_winner() : animations_loser();
 }
 
 
