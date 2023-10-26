@@ -100,7 +100,7 @@ player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.g
 
 void Game::run() {
     std::thread([&]() {
-        while ((!enemyR.defeated() && !enemyM.defeated() && !player.defeated()) && !game_over) {
+        while ((!enemyR.defeated() || !enemyM.defeated()) && !player.defeated()&& !game_over) {
             displayTimer();
         }
     }).detach();
