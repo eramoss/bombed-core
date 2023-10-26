@@ -13,7 +13,7 @@
 #include <sstream>
 #include <iostream>
 
-void save_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Power power,  Timer timer) {
+void save_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Power power, Power powerWall,  Timer timer) {
 
     std::ofstream outFile("options.txt");
 
@@ -29,12 +29,13 @@ void save_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Pow
     outFile << "EnemyMirror," << enemyM_coord.X << "," << enemyM_coord.Y << std::endl;
     outFile << "EnemyRandom," << enemyR_coord.X << "," << enemyR_coord.Y << std::endl;
     outFile << "Power," << power.coord.X << "," << power.coord.Y << std::endl;
+    outFile << "PowerW," << powerWall.coord.X << "," << powerWall.coord.Y << std::endl;
     outFile << "Timer," << timer.elapsed() << ",";
 
     outFile.close();
 }
 
-void load_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Power& power,Bomb& bomb, double& timer) {
+void load_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Power& power, Power &powerWall,Bomb& bomb, double& timer) {
 
     std::ifstream inFile("options.txt");
     std::string line;
@@ -67,6 +68,9 @@ void load_positions(Player& player, EnemyMirror& enemyM, EnemyRandom& enemyR,Pow
         } else if (typeName == "Power") {
             power.coord.X = x;
             power.coord.Y = y;
+        } else if (typeName == "PowerW") {
+            powerWall.coord.X = x;
+            powerWall.coord.Y = y;
         }
     }
 

@@ -44,7 +44,7 @@ static bool bomb_is_on_map = false;
 class Game {
 public:
     Game();
-    Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms);
+    Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, Power powerWall, const std::string &filemap, double ms);
 
     void run();
     bool win = false;
@@ -93,8 +93,8 @@ private:
 
 Game::Game() :timer(), player(Coord{1, 1}),  enemyM(Coord{5, 5}),enemyR(Coord{9, 9}),map("../map.txt"),power(Coord{26,18}), powerWall(Coord{2,18}){}
 
-Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms) :
-player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.get_coord()), map(filemap), power(power.coord), powerWall(Coord{2,18}){
+Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, Power powerWall, const std::string &filemap, double ms) :
+player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.get_coord()), map(filemap), power(power.coord), powerWall(powerWall.coord){
     timer = Timer::init_from(ms);
 }
 
@@ -192,7 +192,7 @@ void Game::processInput(char input) {
         case 'p':
             if (!bomb_is_on_map && !enemyR.defeated() && !enemyM.defeated()) {
                 Save::save_game(map);
-                save_positions(player,enemyM,enemyR,power,timer);
+                save_positions(player,enemyM,enemyR,power, powerWall,timer);
             }
             break;
         default:
