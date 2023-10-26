@@ -22,7 +22,7 @@ public:
     Coord get_coord() const {
         return coordinate;
     };
-    [[nodiscard]] bool defeated() const{
+    bool defeated() const{
         return is_defeated;
     }
     void kill(){

@@ -99,7 +99,7 @@ player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.g
 
 void Game::run() {
     std::thread([&]() {
-        while (!game_over) {
+        while (!enemyR.defeated() && !enemyM.defeated() && !player.defeated()) {
             displayTimer();
         }
     }).detach();
@@ -184,23 +184,15 @@ void Game::processInput(char input) {
             player.put_bomb();
             break;
         case 'q':
-            if (bomb_is_on_map) {
-                clear_console();
-                displayMap();
-                std::cout << "cannot quit while bomb is on map\n";
-                break;
+            if (!bomb_is_on_map) {
+                game_over = true;
             }
-            game_over = true;
             break;
         case 'p':
-            if (bomb_is_on_map) {
-                clear_console();
-                displayMap();
-                std::cout << "cannot save while bomb is on map\n";
-                break;
+            if (!bomb_is_on_map && !enemyR.defeated() && !enemyM.defeated()) {
+                Save::save_game(map);
+                save_positions(player,enemyM,enemyR,power,timer);
             }
-            Save::save_game(map);
-            save_positions(player,enemyM,enemyR,power,timer);
             break;
         default:
             break;
