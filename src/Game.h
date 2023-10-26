@@ -60,7 +60,7 @@ private:
     bool stop_animation = false;
     bool bomb_is_exploding = false;
     bool player_can_walk_in_wall = false;
-
+    bool exit;
 
     void displayTimer();
 
@@ -100,13 +100,13 @@ player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.g
 
 void Game::run() {
     std::thread([&]() {
-        while ((!enemyR.defeated() || !enemyM.defeated()) && !player.defeated()&& !game_over) {
+        while ((!enemyR.defeated() || !enemyM.defeated()) && !player.defeated()&& !game_over && !exit) {
             displayTimer();
         }
     }).detach();
     translateMap();
     char input;
-    while (!game_over) {
+    while (!game_over && !win && !exit) {
         clear_console(true);
         displayMap();
         input = get_input_without_enter();
@@ -115,8 +115,11 @@ void Game::run() {
         checkPlayerHasPower();
         checkPlayerWin();
         checkPlayerDeath();
+
     }
-    win? animation_winner() : animations_loser();
+    if (!exit) {
+        win? animation_winner() : animations_loser();
+    }
 }
 
 
@@ -185,7 +188,7 @@ void Game::processInput(char input) {
             break;
         case 'q':
             if (!bomb_is_on_map) {
-                game_over = true;
+                exit = true;
             }
             break;
         case 'p':
@@ -373,7 +376,6 @@ void Game::checkPlayerHasPower() {
 }
 void Game::checkPlayerWin() {
     if (enemyR.defeated() && enemyM.defeated()) {
-        game_over = true;
         win = true;
     }
 }

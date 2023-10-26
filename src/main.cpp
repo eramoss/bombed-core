@@ -20,8 +20,8 @@ int main() {
                      "| ___ \\ / _ \\ | '_ ` _ \\ | '_ \\  / _ \\ / _` | | |     / _ \\ | '__| / _ \\\n"
                      "| |_/ /| (_) || | | | | || |_) ||  __/| (_| | | \\__/\\| (_) || |   |  __/\n"
                      "\\____/  \\___/ |_| |_| |_||_.__/  \\___| \\__,_|  \\____/ \\___/ |_|    \\___|\n\n"
-                     "     1 - Jogar     2 - Continuar     3 - Informações     4 - Sair\n\n"
-                     "                          Escolha:";
+                     "   1 - Começar novo jogo     2 - Continuar     3 - Informações     4 - Sair\n\n"
+                     "                                   Escolha:";
         std::cin >> select;
 
         switch (select) {
