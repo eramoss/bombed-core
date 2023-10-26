@@ -55,15 +55,17 @@ private:
     EnemyRandom enemyR;
     MapFromFile map;
     Power power;
+    Power powerWall;
     bool game_over = false;
     bool stop_animation = false;
     bool bomb_is_exploding = false;
     bool win = false;
+    bool player_can_walk_in_wall = false;
 
 
     void displayTimer();
 
-    bool characterCanMove(Character &character, int dx, int dy);
+    bool characterCanMove(Character &character, int dx, int dy,bool is_player);
 
     void displayMap();
 
@@ -90,16 +92,16 @@ private:
 };
 
 
-Game::Game() :timer(), player(Coord{1, 1}),  enemyM(Coord{5, 5}),enemyR(Coord{9, 9}),map("../map.txt"),power(Coord{26,18}){}
+Game::Game() :timer(), player(Coord{1, 1}),  enemyM(Coord{5, 5}),enemyR(Coord{9, 9}),map("../map.txt"),power(Coord{26,18}), powerWall(Coord{2,18}){}
 
 Game::Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms) :
-player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.get_coord()), map(filemap), power(power.coord){
+player(player1.get_coord()),enemyM(enemyMirror.get_coord()),enemyR(enemyRandom.get_coord()), map(filemap), power(power.coord), powerWall(Coord{2,18}){
     timer = Timer::init_from(ms);
 }
 
 void Game::run() {
     std::thread([&]() {
-        while (!enemyR.defeated() && !enemyM.defeated() && !player.defeated()) {
+        while ((!enemyR.defeated() && !enemyM.defeated() && !player.defeated()) && !game_over) {
             displayTimer();
         }
     }).detach();
@@ -120,7 +122,7 @@ void Game::run() {
 }
 
 
-bool Game::characterCanMove(Character &character, int dx, int dy) {
+bool Game::characterCanMove(Character &character, int dx, int dy,bool is_player) {
     Coord move = character.get_coord() + Coord{dx, dy};
     if (move.X > map.width - 1 || move.Y > map.height - 1 || move.X <= 0 || move.Y <= 0) return false;
     if (character.defeated()) return false;
@@ -128,7 +130,7 @@ bool Game::characterCanMove(Character &character, int dx, int dy) {
     if (move == enemyR.get_coord()) return false;
     if (move == enemyM.get_coord()) return false;
     if (move == player.get_bomb().get_coord()) return false;
-    if (map.map[move.Y][move.X] == empty_symbol) {
+    if (map.map[move.Y][move.X] == empty_symbol || (player_can_walk_in_wall && is_player)) {
         return true;
     }
     return false;
@@ -148,7 +150,7 @@ void Game::displayMap() {
                 std::cout << bomb_character;
             } else if (player.get_coord() == Coord{j, i} && !player.defeated()) {
                 std::cout << player_symbol;
-            }else if (power.coord == Coord {j,i}){
+            }else if (power.coord == Coord {j,i} || powerWall.coord == Coord {j,i}){
                 std::cout << "& ";
             } else if (symbol == explosion || symbol == great_explosion ||symbol == greater_explosion){
                 if (bomb_is_exploding){
@@ -201,16 +203,16 @@ void Game::processInput(char input) {
 
 void Game::move(int dx, int dy) {
     Coord random_move{};
-    if (characterCanMove(player, dx, dy)) {
+    if (characterCanMove(player, dx, dy, true)) {
         player.move(dx, dy);
     }
 
-    if (characterCanMove(enemyM, dx * -1, dy * -1)) {
+    if (characterCanMove(enemyM, dx * -1, dy * -1, false)) {
         enemyM.move(dx * -1, dy * -1);
     }
 
     random_move = enemyR.generate_random_move();
-    while (!characterCanMove(enemyR, random_move.X, random_move.Y) && !enemyR.defeated()) {
+    while (!characterCanMove(enemyR, random_move.X, random_move.Y, false) && !enemyR.defeated()) {
         random_move = enemyR.generate_random_move();
     }
     enemyR.move(random_move.X, random_move.Y);
@@ -357,11 +359,19 @@ void Game::checkPlayerHasPower() {
     if (player.get_coord() == power.coord) {
         player.get_bomb().increase_blast();
         power.coord = Coord {0,0};
+        Timer::async_time_out([&]() {
+            player.get_bomb().decrease_blast();
+        }, 20000);
     }
 
-    Timer::async_time_out([&]() {
-        player.get_bomb().decrease_blast();
-    }, 20000);
+
+    if (player.get_coord() == powerWall.coord) {
+        player_can_walk_in_wall = true;
+        powerWall.coord = Coord {0,0};
+        Timer::async_time_out([&]() {
+            player_can_walk_in_wall = false;
+        }, 10000);
+    }
 }
 void Game::checkPlayerWin() {
     if (enemyR.defeated() && enemyM.defeated()) {
