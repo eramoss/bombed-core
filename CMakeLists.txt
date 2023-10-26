@@ -2,7 +2,9 @@ cmake_minimum_required(VERSION 3.26)
 project(BombedCore)
 
 set(CMAKE_CXX_STANDARD 20)
-
+if (CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -std=c++20")
+endif()
 add_executable(BombedCore src/main.cpp)
 #find_package(GTest REQUIRED)
 
