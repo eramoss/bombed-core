@@ -34,7 +34,7 @@ namespace animations {
 
     for (int i = 0; i < 22; i++) {
       std::cout << animatedRule[i] << std::endl;
-      Timer::sleep(100000);
+      Timer::sleep(300);
     }
     std::cout << std::endl << std::endl;
     pause_console();
@@ -55,7 +55,7 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_win[i] << std::endl;
-      Timer::sleep(300000);
+      Timer::sleep(300);
     }
 
     std::cout << std::endl << std::endl;
@@ -79,7 +79,7 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_lose[i] << std::endl;
-      Timer::sleep(200000);
+      Timer::sleep(300);
     }
 
     std::cout << std::endl << std::endl;
