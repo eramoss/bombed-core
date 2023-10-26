@@ -47,7 +47,7 @@ public:
     Game(Player player1, EnemyMirror enemyMirror, EnemyRandom enemyRandom,Power power, const std::string &filemap, double ms);
 
     void run();
-
+    bool win = false;
 private:
     Timer timer ;
     Player player;
@@ -59,7 +59,6 @@ private:
     bool game_over = false;
     bool stop_animation = false;
     bool bomb_is_exploding = false;
-    bool win = false;
     bool player_can_walk_in_wall = false;
 
 
