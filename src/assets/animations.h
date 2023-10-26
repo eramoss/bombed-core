@@ -6,38 +6,38 @@
 namespace animations {
 
   void animation_rules() {
+
     clear_console();
+
     std::string animatedRule[] = {
-        "  ._________________________________________________.    ",
-        " / \\                                                 \\ ",
-        "|   |                    Regras                      |   ",
-        "`.__|                                                |   ",
-        "    |                                                |   ",
-        "    |    > Movimento automatico, pressione WASD      |   ",
-        "    |          para mover o seu personagem.          |   ",
-        "    |                                                |   ",
-        "    |    > Pressione ENTER para soltar uma bomba     |   ",
-        "    |        no local onde esta seu personagem.      |   ",
-        "    |                                                |   ",
-        "    |    > Apos o jogador andar 3 vezes, a bomba     |   ",
-        "    |         ira detonar em formato de cruz.        |   ",
-        "    |                                                |   ",
-        "    |    > Bombas podem destruir paredes frageis,    |   ",
-        "    |           matar inimigos e o jogador.          |   ",
-        "    |                                                |   ",
-        "    |    > O jogador ganha quando acabar com todos   |   ",
-        "    |               os inimigos do mapa.             |   ",
-        "    |                                                |   ",
-        "    |  .------------------------------------------------.",
-        "    \\_/________________________________________________/"
+        "  .________________________________________.    ",
+        " / \\                                        \\ ",
+        "|   |             Bombed Core               |   ",
+        "`.__|                                       |   ",
+        "    |                                       |   ",
+        "    |      Desenvolvido por:                |   ",
+        "    |      > Eduardo Lechinski Ramos        |   ",
+        "    |      > Jonatas Regis Hellmann         |   ",
+        "    |      > Leonardo De Borba Cardoso      |   ",
+        "    |                                       |   ",
+        "    |                                       |   ",
+        "    |  .---------------------------------------.",
+        "    \\_/_______________________________________/"
     };
 
-    for (int i = 0; i < 22; i++) {
+    for (int i = 0; i < 13; i++) {
       std::cout << animatedRule[i] << std::endl;
+<<<<<<< Updated upstream
       usleep(100000);
+=======
+      Timer::sleep(100);
+>>>>>>> Stashed changes
     }
+
     std::cout << std::endl << std::endl;
+
     pause_console();
+
   }
 
   void animation_winner() {
@@ -55,7 +55,11 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_win[i] << std::endl;
+<<<<<<< Updated upstream
       usleep(300000);
+=======
+      Timer::sleep(200);
+>>>>>>> Stashed changes
     }
 
     std::cout << std::endl << std::endl;
@@ -79,7 +83,11 @@ namespace animations {
 
     for (int i = 0; i < 6; i++) {
       std::cout << animated_lose[i] << std::endl;
+<<<<<<< Updated upstream
       usleep(200000);
+=======
+      Timer::sleep(200);
+>>>>>>> Stashed changes
     }
 
     std::cout << std::endl << std::endl;

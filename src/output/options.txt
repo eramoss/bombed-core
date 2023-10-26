@@ -1,0 +1,6 @@
+Player,8,4
+Bomb,0,0
+EnemyMirror,-1,-1
+EnemyRandom,8,10
+Power,26,18
+Timer,15208.7,
